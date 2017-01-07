@@ -1,7 +1,8 @@
 /*
  Copyright (c) 2016 waynezxcv <liuweiself@126.com>
  
- https://github.com/waynezxcv/ELoop
+ https://github.com/waynezxcv/DispatchSocket
+ 
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +23,6 @@
  THE SOFTWARE.
  */
 
-
 #ifndef TCPServer_hpp
 #define TCPServer_hpp
 
@@ -32,7 +32,7 @@
 
 
 namespace DispatchSocket {
-
+    
     class TCPServer : public Socket {
     public:
         //构造函数
@@ -53,11 +53,8 @@ namespace DispatchSocket {
         //在指定端口号监听
         bool sockListen(const uint16_t& port);
         
-        //关闭
-        bool sockClose(const int& fd);
-        
-        //获取监听的文件描述符
-        int getListenFd () const;
+        //关闭服务器
+        void shutdown();
         
         //读
         ssize_t sockRead(int fd, void* buffer,size_t length) override;
@@ -65,15 +62,21 @@ namespace DispatchSocket {
         //写
         ssize_t sockWrite(int fd, void* buffer,size_t length) override;
         
+        //获取当前连接的客户端数量
+        int getCurrentClientsCount() const;
+        
     private:
         int _listenFd;//监听的文件描述符
         dispatch_queue_t _acceptDispatchQueue;//用于监听的Accept的dispatch队列
         /*Dispatch Source在Unix下封装自kqueue，实现高性能的I/O多路复用*/
-        dispatch_source_t _accpetSource;
-        dispatch_source_t _readSource;
-        dispatch_source_t _writeSource;
+        dispatch_source_t _accpetSource;//在一个串行队列中执行
+        dispatch_source_t _readSource;//在global concurrent queue中执行
+        dispatch_source_t _writeSource;//在global concurrent queue中执行
         std::vector<int> _clientFds;//包含已连接的客户端文件描述符的容器
         void acceptHandler(const int& fd);
+        int _addressFamily;//地址协议族
+        int getListenFd () const;//获取监听的文件描述符
+        bool sockClose(const int& fd);//关闭某个文件描述符
     };
 }
 

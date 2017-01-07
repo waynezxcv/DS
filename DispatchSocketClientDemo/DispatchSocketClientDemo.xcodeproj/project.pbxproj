@@ -17,8 +17,7 @@
 		0115C0781E210BD100021B1A /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C06D1E210BD100021B1A /* Socket.cpp */; };
 		0115C07A1E210BD100021B1A /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0711E210BD100021B1A /* TCPClient.cpp */; };
 		0115C07B1E210BD100021B1A /* TCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0731E210BD100021B1A /* TCPServer.cpp */; };
-		0115C0961E2121A700021B1A /* LWTcpClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0931E2121A700021B1A /* LWTcpClient.mm */; };
-		0115C0971E2121A700021B1A /* LWTcpServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0951E2121A700021B1A /* LWTcpServer.mm */; };
+		0115C09E1E21492700021B1A /* DispatchSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C09D1E21492700021B1A /* DispatchSocket.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,10 +39,8 @@
 		0115C0721E210BD100021B1A /* TCPClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPClient.hpp; path = ../DispatchSocket/TCPClient.hpp; sourceTree = "<group>"; };
 		0115C0731E210BD100021B1A /* TCPServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPServer.cpp; path = ../DispatchSocket/TCPServer.cpp; sourceTree = "<group>"; };
 		0115C0741E210BD100021B1A /* TCPServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPServer.hpp; path = ../DispatchSocket/TCPServer.hpp; sourceTree = "<group>"; };
-		0115C0921E2121A700021B1A /* LWTcpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWTcpClient.h; path = ../DispatchSocket/LWTcpClient.h; sourceTree = "<group>"; };
-		0115C0931E2121A700021B1A /* LWTcpClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LWTcpClient.mm; path = ../DispatchSocket/LWTcpClient.mm; sourceTree = "<group>"; };
-		0115C0941E2121A700021B1A /* LWTcpServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWTcpServer.h; path = ../DispatchSocket/LWTcpServer.h; sourceTree = "<group>"; };
-		0115C0951E2121A700021B1A /* LWTcpServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LWTcpServer.mm; path = ../DispatchSocket/LWTcpServer.mm; sourceTree = "<group>"; };
+		0115C09C1E21492700021B1A /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = ../DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
+		0115C09D1E21492700021B1A /* DispatchSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchSocket.mm; path = ../DispatchSocket/DispatchSocket.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,10 +114,8 @@
 		0115C0981E21224600021B1A /* Objc_interface */ = {
 			isa = PBXGroup;
 			children = (
-				0115C0921E2121A700021B1A /* LWTcpClient.h */,
-				0115C0931E2121A700021B1A /* LWTcpClient.mm */,
-				0115C0941E2121A700021B1A /* LWTcpServer.h */,
-				0115C0951E2121A700021B1A /* LWTcpServer.mm */,
+				0115C09C1E21492700021B1A /* DispatchSocket.h */,
+				0115C09D1E21492700021B1A /* DispatchSocket.mm */,
 			);
 			name = Objc_interface;
 			sourceTree = "<group>";
@@ -197,15 +192,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0115C0971E2121A700021B1A /* LWTcpServer.mm in Sources */,
 				0115C0751E210BD100021B1A /* AddressHelper.cpp in Sources */,
 				0115C0781E210BD100021B1A /* Socket.cpp in Sources */,
+				0115C09E1E21492700021B1A /* DispatchSocket.mm in Sources */,
 				0115C07B1E210BD100021B1A /* TCPServer.cpp in Sources */,
 				0115C0581E210BAD00021B1A /* ViewController.m in Sources */,
 				0115C0551E210BAD00021B1A /* AppDelegate.m in Sources */,
 				0115C07A1E210BD100021B1A /* TCPClient.cpp in Sources */,
 				0115C0521E210BAD00021B1A /* main.m in Sources */,
-				0115C0961E2121A700021B1A /* LWTcpClient.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

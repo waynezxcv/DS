@@ -1,7 +1,8 @@
 /*
  Copyright (c) 2016 waynezxcv <liuweiself@126.com>
  
- https://github.com/waynezxcv/ELoop
+ https://github.com/waynezxcv/DispatchSocket
+ 
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +22,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
 
 #ifndef AddressHelper_hpp
 #define AddressHelper_hpp

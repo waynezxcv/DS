@@ -25,43 +25,83 @@
 
 
 
-#ifndef Socket_hpp
-#define Socket_hpp
-
-#include "AddressHelper.hpp"
-
-#define SOCK_NULL -1
-#define BUFFER_SIZE 32768
+#import "DispatchSocket.h"
+#import "TCPServer.hpp"
+#import "TCPClient.hpp"
 
 
-namespace DispatchSocket {
-    class Socket {
-    public:
-        //构造函数
-        Socket(){};
-        
-        //析构函数
-        virtual ~Socket(){};
-        
-        //读
-        virtual ssize_t sockRead(int fd, void* buffer,size_t length) = 0;
-        
-        //写
-        virtual ssize_t sockWrite(int fd, void* buffer,size_t length) = 0;
-        
-        //获取socket
-        void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取对端socket
-        void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取局域网IP
-        std::string sockGetIfaddrs() const;
-        
-        //设置非堵塞
-        int setNonBlock(const int& fd);
-    };
+using namespace DispatchSocket;
+
+
+@interface LWTcpClient () {
+    TCPClient* _client;
 }
 
+@end
 
-#endif /* Socket_hpp */
+@implementation LWTcpClient
+
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _client = new TCPClient();
+    }
+    return self;
+}
+
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port {
+    std::string str ([host UTF8String]);
+    _client->sockConnect(str, port);
+}
+- (void)disConnect {
+    _client->sockDisconnect();
+}
+
+- (void)dealloc {
+    delete _client;
+}
+
+@end
+
+
+
+@interface LWTcpServer () {
+    TCPServer* _server;
+}
+
+@end
+
+
+
+@implementation LWTcpServer
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _server = new TCPServer();
+    }
+    return self;
+}
+
+- (void)listen {
+    _server->sockListen();
+}
+
+- (void)listenOnPort:(NSInteger)port {
+    _server->sockListen(port);
+}
+
+- (void)shutDown {
+    _server->shutdown();
+}
+
+- (NSInteger)getCurrentConnectedCount {
+    return _server->getCurrentClientsCount();
+}
+
+- (void)dealloc {
+    delete _server;
+}
+
+@end

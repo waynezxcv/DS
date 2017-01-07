@@ -1,7 +1,8 @@
 /*
  Copyright (c) 2016 waynezxcv <liuweiself@126.com>
  
- https://github.com/waynezxcv/ELoop
+ https://github.com/waynezxcv/DispatchSocket
+ 
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +25,11 @@
 
 
 
-
 #ifndef TCPClient_hpp
 #define TCPClient_hpp
 
 #include "Socket.hpp"
+#include <dispatch/dispatch.h>
 
 namespace DispatchSocket {
     class TCPClient : public Socket {
@@ -59,6 +60,8 @@ namespace DispatchSocket {
         
     private:
         int _conFd;
+        dispatch_source_t _readSource;//在global concurrent queue中执行
+        dispatch_source_t _writeSource;//在global concurrent queue中执行
     };
 }
 

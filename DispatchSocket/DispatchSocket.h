@@ -25,43 +25,24 @@
 
 
 
-#ifndef Socket_hpp
-#define Socket_hpp
+#import <Foundation/Foundation.h>
 
-#include "AddressHelper.hpp"
+@interface LWTcpClient : NSObject
 
-#define SOCK_NULL -1
-#define BUFFER_SIZE 32768
+- (id)init;
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
+- (void)disConnect;
 
-
-namespace DispatchSocket {
-    class Socket {
-    public:
-        //构造函数
-        Socket(){};
-        
-        //析构函数
-        virtual ~Socket(){};
-        
-        //读
-        virtual ssize_t sockRead(int fd, void* buffer,size_t length) = 0;
-        
-        //写
-        virtual ssize_t sockWrite(int fd, void* buffer,size_t length) = 0;
-        
-        //获取socket
-        void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取对端socket
-        void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取局域网IP
-        std::string sockGetIfaddrs() const;
-        
-        //设置非堵塞
-        int setNonBlock(const int& fd);
-    };
-}
+@end
 
 
-#endif /* Socket_hpp */
+
+@interface LWTcpServer : NSObject
+
+- (id)init;
+- (void)listen;
+- (void)listenOnPort:(NSInteger)port;
+- (void)shutDown;
+- (NSInteger)getCurrentConnectedCount;
+
+@end

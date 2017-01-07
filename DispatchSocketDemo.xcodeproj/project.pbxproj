@@ -15,8 +15,7 @@
 		0115C0401E210A1400021B1A /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0351E210A1400021B1A /* Socket.cpp */; };
 		0115C0421E210A1400021B1A /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0391E210A1400021B1A /* TCPClient.cpp */; };
 		0115C0431E210A1400021B1A /* TCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C03B1E210A1400021B1A /* TCPServer.cpp */; };
-		0115C0901E21219500021B1A /* LWTcpClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C08D1E21219400021B1A /* LWTcpClient.mm */; };
-		0115C0911E21219500021B1A /* LWTcpServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C08F1E21219400021B1A /* LWTcpServer.mm */; };
+		0115C09B1E21487200021B1A /* DispatchSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C09A1E21487200021B1A /* DispatchSocket.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,10 +34,8 @@
 		0115C03A1E210A1400021B1A /* TCPClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPClient.hpp; path = DispatchSocket/TCPClient.hpp; sourceTree = "<group>"; };
 		0115C03B1E210A1400021B1A /* TCPServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPServer.cpp; path = DispatchSocket/TCPServer.cpp; sourceTree = "<group>"; };
 		0115C03C1E210A1400021B1A /* TCPServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPServer.hpp; path = DispatchSocket/TCPServer.hpp; sourceTree = "<group>"; };
-		0115C08C1E21219400021B1A /* LWTcpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWTcpClient.h; path = DispatchSocket/LWTcpClient.h; sourceTree = "<group>"; };
-		0115C08D1E21219400021B1A /* LWTcpClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LWTcpClient.mm; path = DispatchSocket/LWTcpClient.mm; sourceTree = "<group>"; };
-		0115C08E1E21219400021B1A /* LWTcpServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWTcpServer.h; path = DispatchSocket/LWTcpServer.h; sourceTree = "<group>"; };
-		0115C08F1E21219400021B1A /* LWTcpServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LWTcpServer.mm; path = DispatchSocket/LWTcpServer.mm; sourceTree = "<group>"; };
+		0115C0991E21487200021B1A /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
+		0115C09A1E21487200021B1A /* DispatchSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchSocket.mm; path = DispatchSocket/DispatchSocket.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,10 +99,8 @@
 		0115C0841E2118CC00021B1A /* Objc_interface */ = {
 			isa = PBXGroup;
 			children = (
-				0115C08C1E21219400021B1A /* LWTcpClient.h */,
-				0115C08D1E21219400021B1A /* LWTcpClient.mm */,
-				0115C08E1E21219400021B1A /* LWTcpServer.h */,
-				0115C08F1E21219400021B1A /* LWTcpServer.mm */,
+				0115C0991E21487200021B1A /* DispatchSocket.h */,
+				0115C09A1E21487200021B1A /* DispatchSocket.mm */,
 			);
 			name = Objc_interface;
 			sourceTree = "<group>";
@@ -198,9 +193,8 @@
 			files = (
 				0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */,
 				0115C0421E210A1400021B1A /* TCPClient.cpp in Sources */,
-				0115C0911E21219500021B1A /* LWTcpServer.mm in Sources */,
+				0115C09B1E21487200021B1A /* DispatchSocket.mm in Sources */,
 				0115C0221E2109D600021B1A /* main.m in Sources */,
-				0115C0901E21219500021B1A /* LWTcpClient.mm in Sources */,
 				0115C0401E210A1400021B1A /* Socket.cpp in Sources */,
 				0115C01F1E2109D600021B1A /* AppDelegate.m in Sources */,
 				0115C0431E210A1400021B1A /* TCPServer.cpp in Sources */,
