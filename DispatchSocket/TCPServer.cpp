@@ -25,6 +25,7 @@
 
 
 
+
 #include "TCPServer.hpp"
 
 
@@ -35,7 +36,7 @@ using namespace DispatchSocket;
 #pragma mark - LifeCycle
 
 TCPServer::TCPServer() : _listenFd(SOCK_NULL),_addressFamily(SOCK_NULL) {
-    _clientFds = std::vector<int>();
+    _clients = std::vector<ConnectedClient *>();
     _acceptDispatchQueue = dispatch_queue_create("com.waynezxcv.DispatchSocket.acceptQueue", DISPATCH_QUEUE_SERIAL);//串行队列
 }
 
@@ -56,6 +57,7 @@ bool TCPServer::sockListen() {
 
 bool TCPServer::sockListen(const uint16_t &port) {
     auto creatSock = [](int domain,const struct sockaddr* addr) -> int {
+        
         //Get socket file descriptor
         int sockFd = socket(domain, SOCK_STREAM, 0);
         
@@ -65,6 +67,7 @@ bool TCPServer::sockListen(const uint16_t &port) {
         
         int status;
         
+        //non block
         status = fcntl(sockFd,
                        F_SETFL,
                        O_NONBLOCK);
@@ -73,6 +76,7 @@ bool TCPServer::sockListen(const uint16_t &port) {
             return SOCK_NULL;
         }
         
+        //reuse address
         int reuseOn = 1;
         status = setsockopt(sockFd,
                             SOL_SOCKET,
@@ -84,6 +88,7 @@ bool TCPServer::sockListen(const uint16_t &port) {
             return SOCK_NULL;
         }
         
+        //no signal pipe
         int nosigpipe = 1;
         status = setsockopt(sockFd,
                             SOL_SOCKET,
@@ -114,6 +119,7 @@ bool TCPServer::sockListen(const uint16_t &port) {
     
     struct sockaddr sockaddr;
     AddressHelper::getSockaddrStruct("", port, &sockaddr);
+    
     if (AddressHelper::isIPv4Addr(&sockaddr)) {
         _addressFamily = AF_INET;
         _listenFd = creatSock(AF_INET,&sockaddr);
@@ -138,42 +144,48 @@ bool TCPServer::sockListen(const uint16_t &port) {
     std::cout<<"port:"<<p<<std::endl;
 #endif
     
-    //创建accpet source，类型Read
+    
+    //accept source
     _accpetSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
                                            _listenFd,
                                            0,
                                            _acceptDispatchQueue);
+    dispatch_retain(_accpetSource);
+    
     __unsafe_unretained TCPServer* weakThis = this;
-    //指定发生READ事件时执行的回调
+    
     dispatch_source_set_event_handler(_accpetSource, ^{
         
         TCPServer* strongThis = weakThis;
         if (strongThis == nullptr) {
             return;
         }
-        unsigned long pending = dispatch_source_get_data(_accpetSource);
         
-        //do accept;
-        if (pending > 0 && _clientFds.size() < MAX_CONNECT_COUNT) {
-            weakThis->acceptHandler(_listenFd);
+        unsigned long pending = dispatch_source_get_data(_accpetSource);
+        if (pending > 0 && _clients.size() < MAX_CONNECT_COUNT) {
+            struct sockaddr c_addr;
+            AddressHelper::getSockaddrStruct(sockGetIfaddrs(), p, &c_addr);
+            weakThis->acceptHandler(_listenFd,AddressHelper::getUrl(&c_addr));
         }
     });
     
-    //指定取消READ事件时执行的回调
     dispatch_source_set_cancel_handler(_accpetSource, ^{
 #ifdef DEBUG
         printf("cancel accept source\n");
 #endif
         if (_accpetSource) {
-            dispatch_release(_accpetSource);//释放内存
+            dispatch_release(_accpetSource);
         }
     });
-    //启动dispatch source
+    
     dispatch_resume(_accpetSource);
+    
     return (SOCK_NULL != _listenFd);
 }
 
-void TCPServer::acceptHandler(const int& fd) {
+
+
+void TCPServer::acceptHandler(const int& fd,const std::string& url) {
     struct sockaddr* sockaddr = nullptr;
     socklen_t addrLen;
     
@@ -187,8 +199,8 @@ void TCPServer::acceptHandler(const int& fd) {
         struct sockaddr_in6 addr_in6;
         addrLen = sizeof(addr_in6);
         sockaddr = (struct sockaddr *)&addr_in6;
-        
     }
+    
     
     int connFd = accept(fd,sockaddr, &addrLen);
     if (connFd == SOCK_NULL) {
@@ -198,46 +210,58 @@ void TCPServer::acceptHandler(const int& fd) {
         return;
     }
     
-    _clientFds.push_back(connFd);
-    
-    
     //write
-    _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,
-                                          connFd,
-                                          0,
-                                          dispatch_get_global_queue(0, 0));
-    dispatch_source_set_event_handler(_writeSource, ^{
+    dispatch_source_t writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,
+                                                           connFd,
+                                                           0,
+                                                           dispatch_get_global_queue(0, 0));
+    
+    dispatch_source_set_event_handler(writeSource, ^{
         //TODO:
+        printf("write..");
     });
     
-    dispatch_source_set_cancel_handler(_writeSource, ^{
+    
+    dispatch_source_set_cancel_handler(writeSource, ^{
 #ifdef DEBUG
         printf("cancel write source\n");
 #endif
-        if (_writeSource) {
-            dispatch_release(_writeSource);//释放内存
-        }
-    });
-    
-    //read
-    _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
-                                         connFd,
-                                         0,
-                                         dispatch_get_global_queue(0, 0));
-    dispatch_source_set_event_handler(_readSource, ^{
-        //TODO:
+        
         
     });
     
-    dispatch_source_set_cancel_handler(_readSource, ^{
+    
+    //read
+    dispatch_source_t readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
+                                                          connFd,
+                                                          0,
+                                                          dispatch_get_global_queue(0, 0));
+    
+    
+    dispatch_source_set_event_handler(readSource, ^{
+        printf("read...");
+        
+        //        void* buffer;
+        //        size_t available = dispatch_source_get_data(readSource);
+        //        int length = read(connFd, buffer, available);
+        
+        
+        
+    });
+    
+    
+    dispatch_source_set_cancel_handler(readSource, ^{
         
 #ifdef DEBUG
         printf("cancel read source\n");
 #endif
-        if (_readSource) {
-            dispatch_release(_readSource);//释放内存
-        }
+        
     });
+    
+    ConnectedClient* client = new ConnectedClient(connFd,url);
+    client->setReadSource(readSource);
+    client->setWriteSource(writeSource);
+    _clients.push_back(client);
     
     //获取对端ip地址和端口号
 #ifdef DEBUG
@@ -248,6 +272,7 @@ void TCPServer::acceptHandler(const int& fd) {
     std::cout<<"current connects count:"<<getCurrentClientsCount()<<std::endl;
     std::cout<<"*** *** *** *** ***"<<std::endl;
 #endif
+    
 }
 
 #pragma mark - I/O
@@ -258,16 +283,19 @@ ssize_t TCPServer::sockRead(int fd, void* buffer,size_t length) {
 
 ssize_t TCPServer::sockWrite(int fd, void* buffer,size_t length) {
     return 0;
-    
 }
 
 #pragma mark - Close
 
 void TCPServer::shutdown() {
-    for (auto i = _clientFds.begin(); i != _clientFds.end(); ++ i) {
-        int cFd = *i;
-        sockClose(cFd);
+    for (auto i = _clients.begin(); i != _clients.end(); ++ i) {
+        ConnectedClient* client = *i;
+        sockClose(client->getFd());
+        delete client;
     }
+    
+    _clients.clear();
+    
     if (_listenFd != SOCK_NULL) {
         sockClose(_listenFd);
     }
@@ -275,15 +303,6 @@ void TCPServer::shutdown() {
     if (_accpetSource) {
         dispatch_release(_accpetSource);
     }
-    
-    if (_readSource) {
-        dispatch_release(_readSource);
-    }
-    
-    if (_writeSource) {
-        dispatch_release(_writeSource);
-    }
-    _clientFds.clear();
 }
 
 bool TCPServer::sockClose(const int& fd) {
@@ -297,5 +316,7 @@ int TCPServer::getListenFd() const {
 }
 
 int TCPServer::getCurrentClientsCount() const {
-    return static_cast<int>(_clientFds.size());
+    return static_cast<int>(_clients.size());
 }
+
+

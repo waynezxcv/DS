@@ -33,7 +33,7 @@ using namespace DispatchSocket;
 
 #pragma mark - LifeCycle
 
-TCPClient::TCPClient() : _conFd(SOCK_NULL) {
+TCPClient::TCPClient() : _connFd (SOCK_NULL) {
 };
 
 
@@ -44,68 +44,88 @@ TCPClient::~TCPClient() {
 #pragma mark - Connect
 
 bool TCPClient::sockConnect(const std::string& host,const uint16_t& port) {
+    
     struct sockaddr sockaddr;
     
-    AddressHelper::getSockaddrStruct(host, port, &sockaddr);
-    if (AddressHelper::isIPv4Addr(&sockaddr)) {
-        _conFd = socket(AF_INET, SOCK_STREAM, 0);
-    } else if (AddressHelper::isIPv6Addr(&sockaddr)) {
-        _conFd = socket(AF_INET6, SOCK_STREAM, 0);
-    }
-    
-    if (_conFd == SOCK_NULL) {
+    auto createSock = [](struct sockaddr* sockaddr,const std::string& host,const uint16_t& port) -> int {
+        int connFd = SOCK_NULL;
+        
+        AddressHelper::getSockaddrStruct(host, port, sockaddr);
+        if (AddressHelper::isIPv4Addr(sockaddr)) {
+            connFd = socket(AF_INET, SOCK_STREAM, 0);
+        } else if (AddressHelper::isIPv6Addr(sockaddr)) {
+            connFd = socket(AF_INET6, SOCK_STREAM, 0);
+        }
+        
+        
+        if (connFd == SOCK_NULL) {
 #ifdef DEBUG
-        std::cout<<"create connect socket failed!"<<std::endl;
+            std::cout<<"connect fail!"<<std::endl;
 #endif
-        return false;
+            return false;
+        }
+        
+        //Connect
+        int result = connect(connFd,sockaddr, sockaddr -> sa_len);
+        if (SOCK_NULL == result) {
+            close(connFd);
+            return SOCK_NULL;
+        }
+        
+        //non block
+        int status;
+        status = fcntl(connFd,
+                       F_SETFL,
+                       O_NONBLOCK);
+        
+        if (-1 == status) {
+            close(connFd);
+            return SOCK_NULL;
+        }
+        
+        //reuse address
+        int reuseOn = 1;
+        status = setsockopt(connFd,
+                            SOL_SOCKET,
+                            SO_REUSEADDR,
+                            &reuseOn,
+                            sizeof(reuseOn));
+        if (-1 == status) {
+            close(connFd);
+            return SOCK_NULL;
+        }
+        
+        //no signal pipe
+        int nosigpipe = 1;
+        status = setsockopt(connFd,
+                            SOL_SOCKET,
+                            SO_NOSIGPIPE,
+                            &nosigpipe,
+                            sizeof(nosigpipe));
+        
+        if (-1 == status) {
+            close(connFd);
+            return SOCK_NULL;
+        }
+        return connFd;
+    };
+    
+    int connFd = createSock(&sockaddr,host,port);
+    
+    if (connFd == SOCK_NULL) {
+#ifdef DEBUG
+        std::cout<<"connect fail!"<<std::endl;
+#endif
     }
     
-    //Connect
-    int result = connect(_conFd, &sockaddr, sockaddr.sa_len);
-    if (SOCK_NULL == result) {
-        close(_conFd);
-        return false;
-    }
-    
-    int status;
-    status = fcntl(_conFd,
-                   F_SETFL,
-                   O_NONBLOCK);
-    
-    if (-1 == status) {
-        close(_conFd);
-        return false;
-    }
-    
-    int reuseOn = 1;
-    status = setsockopt(_conFd,
-                        SOL_SOCKET,
-                        SO_REUSEADDR,
-                        &reuseOn,
-                        sizeof(reuseOn));
-    if (-1 == status) {
-        close(_conFd);
-        return false;
-    }
-    
-    int nosigpipe = 1;
-    status = setsockopt(_conFd,
-                        SOL_SOCKET,
-                        SO_NOSIGPIPE,
-                        &nosigpipe,
-                        sizeof(nosigpipe));
-    
-    if (-1 == status) {
-        close(_conFd);
-        return false;
-    }
-    
+    _connFd = connFd;
     
     //read source
     _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,
-                                         _conFd,
+                                         _connFd,
                                          0,
                                          dispatch_get_global_queue(0, 0));
+    dispatch_retain(_readSource);
     
     //read event handler
     dispatch_source_set_event_handler(_readSource, ^{
@@ -120,11 +140,15 @@ bool TCPClient::sockConnect(const std::string& host,const uint16_t& port) {
         }
     });
     
+    
     //write source
     _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,
-                                          _conFd,
+                                          _connFd,
                                           0,
                                           dispatch_get_global_queue(0, 0));
+    
+    dispatch_retain(_writeSource);
+    
     
     //write event handler
     dispatch_source_set_event_handler(_writeSource, ^{
@@ -143,23 +167,28 @@ bool TCPClient::sockConnect(const std::string& host,const uint16_t& port) {
     
 #ifdef DEBUG
     std::cout<<"*** *** *** *** ***"<<std::endl;
-    std::cout<<"client connected! ===  listenFd:"<<_conFd<<std::endl;
+    std::cout<<"client connected! ===  listenFd:"<<_connFd<<std::endl;
     std::cout<<"host  "<<AddressHelper::getUrl(&sockaddr)<<std::endl;
     std::cout<<"*** *** *** *** ***"<<std::endl;
 #endif
-    return true;
+    
+    return (SOCK_NULL != _connFd);
 }
 
 bool TCPClient::sockDisconnect() {
-    if (_conFd != SOCK_NULL) {
-        close(_conFd);
+    
+    if (_connFd != SOCK_NULL) {
+        close(_connFd);
     }
+    
     if (_readSource) {
         dispatch_release(_readSource);
     }
+    
     if (_writeSource) {
         dispatch_release(_writeSource);
     }
+    
     return true;
 }
 
@@ -171,5 +200,6 @@ ssize_t TCPClient::sockRead(int fd, void* buffer,size_t length) {
 
 ssize_t TCPClient::sockWrite(int fd, void* buffer,size_t length) {
     return 0;
-    
 }
+
+

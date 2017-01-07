@@ -25,40 +25,46 @@
 
 
 
-#ifndef TCPClient_hpp
-#define TCPClient_hpp
+#include "ConnectedClient.hpp"
 
-#include "Socket.hpp"
 
-namespace DispatchSocket {
-    class TCPClient : public Socket {
-    public:
-        
-        TCPClient();
-        ~TCPClient();
-        TCPClient(const TCPClient&) = delete;
-        TCPClient& operator = (const TCPClient&) = delete;
-        
-        //通过主机地址和端口号链接
-        bool sockConnect(const std::string& host,const uint16_t& port);
-        
-        //断开连接
-        bool sockDisconnect();
-        
-        //读
-        ssize_t sockRead(int fd, void* buffer,size_t length) override;
-        
-        //写
-        ssize_t sockWrite(int fd, void* buffer,size_t length) override;
-        
-    private:
-        
-        int _connFd;//socket连接的文件描述符
-        dispatch_source_t _readSource;//在global concurrent queue中执行
-        dispatch_source_t _writeSource;//在global concurrent queue中执行
-        dispatch_source_t _timerSource;//计时器
-    };
+using namespace DispatchSocket;
+
+void ConnectedClient::setReadSource(const dispatch_source_t& source) {
+    if (source) {
+        dispatch_retain(source);
+        _readSource = source;
+    }
 }
 
+ConnectedClient::~ConnectedClient() {
+    if (_writeSource) {
+        dispatch_release(_writeSource);
+    }
+    if (_readSource) {
+        dispatch_release(_readSource);
+    }
+}
 
-#endif /* TCPClient_hpp */
+void ConnectedClient::setWriteSource(const dispatch_source_t& source) {
+    if (source) {
+        dispatch_retain(source);
+        _writeSource = source;
+    }
+}
+
+dispatch_source_t ConnectedClient::getReadSource() const {
+    return _readSource;
+}
+
+dispatch_source_t ConnectedClient::getWriteSource() const {
+    return _writeSource;
+}
+
+int ConnectedClient::getFd() const {
+    return _connectFd;
+}
+
+std::string ConnectedClient::getURL() const {
+    return _url;
+}

@@ -29,18 +29,20 @@
 #define Socket_hpp
 
 #include "AddressHelper.hpp"
+#include <dispatch/dispatch.h>
+
+
 
 #define SOCK_NULL -1
 #define BUFFER_SIZE 32768
 
 
 namespace DispatchSocket {
+    
+    
     class Socket {
     public:
-        //构造函数
         Socket(){};
-        
-        //析构函数
         virtual ~Socket(){};
         
         //读
@@ -57,9 +59,6 @@ namespace DispatchSocket {
         
         //获取局域网IP
         std::string sockGetIfaddrs() const;
-        
-        //设置非堵塞
-        int setNonBlock(const int& fd);
     };
 }
 

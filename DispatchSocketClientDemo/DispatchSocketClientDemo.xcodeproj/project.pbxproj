@@ -18,6 +18,7 @@
 		0115C07A1E210BD100021B1A /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0711E210BD100021B1A /* TCPClient.cpp */; };
 		0115C07B1E210BD100021B1A /* TCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0731E210BD100021B1A /* TCPServer.cpp */; };
 		0115C09E1E21492700021B1A /* DispatchSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C09D1E21492700021B1A /* DispatchSocket.mm */; };
+		0115C0A71E216D9E00021B1A /* ConnectedClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0A51E216D9E00021B1A /* ConnectedClient.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		0115C0741E210BD100021B1A /* TCPServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPServer.hpp; path = ../DispatchSocket/TCPServer.hpp; sourceTree = "<group>"; };
 		0115C09C1E21492700021B1A /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = ../DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
 		0115C09D1E21492700021B1A /* DispatchSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchSocket.mm; path = ../DispatchSocket/DispatchSocket.mm; sourceTree = "<group>"; };
+		0115C0A51E216D9E00021B1A /* ConnectedClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectedClient.cpp; path = ../DispatchSocket/ConnectedClient.cpp; sourceTree = "<group>"; };
+		0115C0A61E216D9E00021B1A /* ConnectedClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConnectedClient.hpp; path = ../DispatchSocket/ConnectedClient.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 				0115C0721E210BD100021B1A /* TCPClient.hpp */,
 				0115C0731E210BD100021B1A /* TCPServer.cpp */,
 				0115C0741E210BD100021B1A /* TCPServer.hpp */,
+				0115C0A51E216D9E00021B1A /* ConnectedClient.cpp */,
+				0115C0A61E216D9E00021B1A /* ConnectedClient.hpp */,
 			);
 			name = DispatchSocket;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 				0115C0781E210BD100021B1A /* Socket.cpp in Sources */,
 				0115C09E1E21492700021B1A /* DispatchSocket.mm in Sources */,
 				0115C07B1E210BD100021B1A /* TCPServer.cpp in Sources */,
+				0115C0A71E216D9E00021B1A /* ConnectedClient.cpp in Sources */,
 				0115C0581E210BAD00021B1A /* ViewController.m in Sources */,
 				0115C0551E210BAD00021B1A /* AppDelegate.m in Sources */,
 				0115C07A1E210BD100021B1A /* TCPClient.cpp in Sources */,

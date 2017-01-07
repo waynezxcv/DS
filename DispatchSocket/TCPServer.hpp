@@ -28,23 +28,19 @@
 
 #include <vector>
 #include "Socket.hpp"
-#include <dispatch/dispatch.h>
+#include "ConnectedClient.hpp"
+
+
 
 
 namespace DispatchSocket {
     
     class TCPServer : public Socket {
     public:
-        //构造函数
+        
         TCPServer();
-        
-        //析构函数
         ~TCPServer();
-        
-        //拷贝构造函数
         TCPServer(const TCPServer&) = delete;
-        
-        //拷贝赋值运算符
         TCPServer& operator = (const TCPServer&) = delete;
         
         //开始监听
@@ -66,14 +62,13 @@ namespace DispatchSocket {
         int getCurrentClientsCount() const;
         
     private:
+        
+        
         int _listenFd;//监听的文件描述符
         dispatch_queue_t _acceptDispatchQueue;//用于监听的Accept的dispatch队列
-        /*Dispatch Source在Unix下封装自kqueue，实现高性能的I/O多路复用*/
         dispatch_source_t _accpetSource;//在一个串行队列中执行
-        dispatch_source_t _readSource;//在global concurrent queue中执行
-        dispatch_source_t _writeSource;//在global concurrent queue中执行
-        std::vector<int> _clientFds;//包含已连接的客户端文件描述符的容器
-        void acceptHandler(const int& fd);
+        std::vector<ConnectedClient *> _clients;//包含已连接的客户端文件描述符的容器
+        void acceptHandler(const int& fd,const std::string& url);//accept回调
         int _addressFamily;//地址协议族
         int getListenFd () const;//获取监听的文件描述符
         bool sockClose(const int& fd);//关闭某个文件描述符

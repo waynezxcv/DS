@@ -36,7 +36,7 @@ void Socket::sockGetSockName(const int& fd, std::string &ip,uint16_t &port) cons
     char str[128];
     struct sockaddr sockaddr;
     AddressHelper::getSockaddrStruct(ip, port, &sockaddr);
-
+    
     if (AddressHelper::isIPv4Addr(&sockaddr)) {
         struct sockaddr_in addr_in;
         socklen_t addrLen = sizeof(addr_in);
@@ -49,7 +49,7 @@ void Socket::sockGetSockName(const int& fd, std::string &ip,uint16_t &port) cons
                 ip = std::string(str);
             }
         }
-
+        
     } else if (AddressHelper::isIPv6Addr(&sockaddr)) {
         struct sockaddr_in6 addr_in6;
         socklen_t addrLen = sizeof(addr_in6);
@@ -72,7 +72,7 @@ void Socket::sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) cons
     char str[128];
     struct sockaddr sockaddr;
     AddressHelper::getSockaddrStruct(ip, port, &sockaddr);
-
+    
     if (AddressHelper::isIPv4Addr(&sockaddr)) {
         struct sockaddr_in addr_in;
         socklen_t addrLen = sizeof(addr_in);
@@ -117,7 +117,7 @@ std::string Socket::sockGetIfaddrs() const {
                     addr_in = (sockaddr_in *)temlw_addr->ifa_addr;
                     inet_ntop(AF_INET,&addr_in->sin_addr, str, sizeof(str));
                     address = std::string(str);
-
+                    
                 }
             } else if (temlw_addr->ifa_addr->sa_family == AF_INET6) {
                 char* ifa = temlw_addr->ifa_name;
@@ -135,15 +135,4 @@ std::string Socket::sockGetIfaddrs() const {
     freeifaddrs(interfaces);
     return address;
 }
-
-
-int Socket::setNonBlock(const int& fd) {
-    int flags = fcntl(fd, F_GETFL, 0);
-    if (flags < 0) {
-        return flags;
-    }
-    int ret = fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-    return ret;
-}
-
 

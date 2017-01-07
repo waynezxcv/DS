@@ -25,40 +25,41 @@
 
 
 
-#ifndef TCPClient_hpp
-#define TCPClient_hpp
 
-#include "Socket.hpp"
+#ifndef ConnectedClient_hpp
+#define ConnectedClient_hpp
+
+#include <iostream>
+#include <dispatch/dispatch.h>
+
 
 namespace DispatchSocket {
-    class TCPClient : public Socket {
-    public:
+    
+    //在服务端对已连接的客户端的抽象模型
+    class ConnectedClient {
         
-        TCPClient();
-        ~TCPClient();
-        TCPClient(const TCPClient&) = delete;
-        TCPClient& operator = (const TCPClient&) = delete;
+        friend class TCPServer;
         
-        //通过主机地址和端口号链接
-        bool sockConnect(const std::string& host,const uint16_t& port);
+        explicit ConnectedClient(const int&fd ,const std::string& url) : _connectFd(fd),_url(url) {};
+        ~ConnectedClient();
+        ConnectedClient(const ConnectedClient&) = delete;
+        ConnectedClient& operator = (const ConnectedClient&) = delete;
         
-        //断开连接
-        bool sockDisconnect();
+        void setReadSource(const dispatch_source_t& source);
+        void setWriteSource(const dispatch_source_t& source);
         
-        //读
-        ssize_t sockRead(int fd, void* buffer,size_t length) override;
+        dispatch_source_t getReadSource() const;
+        dispatch_source_t getWriteSource() const;
         
-        //写
-        ssize_t sockWrite(int fd, void* buffer,size_t length) override;
+        int getFd() const;
+        std::string getURL() const;
         
-    private:
-        
-        int _connFd;//socket连接的文件描述符
-        dispatch_source_t _readSource;//在global concurrent queue中执行
-        dispatch_source_t _writeSource;//在global concurrent queue中执行
-        dispatch_source_t _timerSource;//计时器
+        std::string _url;
+        int _connectFd;
+        dispatch_source_t _readSource;
+        dispatch_source_t _writeSource;
     };
 }
 
 
-#endif /* TCPClient_hpp */
+#endif /* ConnectedClient_hpp */
