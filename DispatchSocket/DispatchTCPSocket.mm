@@ -24,25 +24,52 @@
  */
 
 
+#import "DispatchTCPSocket.h"
+#import "TCPSocket.hpp"
 
-#import <Foundation/Foundation.h>
 
-@interface LWTcpClient : NSObject
-
-- (id)init;
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
-- (void)disConnect;
+@interface DispatchTCPSocket () {
+    DispatchSocket::TCPSocket* _tcpSocket;
+}
 
 @end
 
+@implementation DispatchTCPSocket
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _tcpSocket = new DispatchSocket::TCPSocket();
+    }
+    return self;
+}
 
-@interface LWTcpServer : NSObject
+- (void)dealloc {
+    delete _tcpSocket;
+}
 
-- (id)init;
-- (void)listen;
-- (void)listenOnPort:(NSInteger)port;
-- (void)shutDown;
-- (NSInteger)getCurrentConnectedCount;
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port {
+    std::string ip ([host UTF8String]);
+    _tcpSocket->sockConnect(ip, port);
+}
+
+- (void)disconnect {
+    _tcpSocket->sockDisconnect();
+}
+
+- (void)listen {
+    _tcpSocket->sockListen();
+}
+- (void)listenOnPort:(NSInteger)port {
+    _tcpSocket->sockListen(port);
+}
+
+- (void)shutdown {
+    _tcpSocket->shutdown();
+}
+
+- (NSInteger)getCurrentConnectedSocketsCount {
+    return _tcpSocket->currentConnectedSocketsCount();
+}
 
 @end

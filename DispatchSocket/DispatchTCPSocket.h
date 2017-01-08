@@ -24,33 +24,17 @@
  */
 
 
+#import <Foundation/Foundation.h>
 
-#ifndef Socket_hpp
-#define Socket_hpp
+@interface DispatchTCPSocket : NSObject
 
-#include "AddressHelper.hpp"
-#include <dispatch/dispatch.h>
+- (id)init;
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
+- (void)disconnect;
 
-#define LW_SOCK_NULL -1
-#define BUFFER_SIZE 32768
+- (void)listen;
+- (void)listenOnPort:(NSInteger)port;
+- (void)shutdown;
+- (NSInteger)getCurrentConnectedSocketsCount;
 
-namespace DispatchSocket {
-    
-    class Socket {
-        
-    public:
-        Socket(){};
-        virtual ~Socket(){};
-        //获取socket
-        void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取对端socket
-        void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
-        
-        //获取局域网IP
-        std::string sockGetIfaddrs() const;
-    };
-}
-
-
-#endif /* Socket_hpp */
+@end

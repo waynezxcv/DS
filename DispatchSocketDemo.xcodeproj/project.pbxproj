@@ -13,10 +13,10 @@
 		0115C0271E2109D600021B1A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0115C0251E2109D600021B1A /* MainMenu.xib */; };
 		0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C02F1E210A1400021B1A /* AddressHelper.cpp */; };
 		0115C0401E210A1400021B1A /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0351E210A1400021B1A /* Socket.cpp */; };
-		0115C0421E210A1400021B1A /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0391E210A1400021B1A /* TCPClient.cpp */; };
-		0115C0431E210A1400021B1A /* TCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C03B1E210A1400021B1A /* TCPServer.cpp */; };
-		0115C09B1E21487200021B1A /* DispatchSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0115C09A1E21487200021B1A /* DispatchSocket.mm */; };
-		0115C0A41E216CD400021B1A /* ConnectedClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0A21E216CD400021B1A /* ConnectedClient.cpp */; };
+		01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40611E226E90005B54EF /* TCPSocket.cpp */; };
+		01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40671E2275DC005B54EF /* UDPSocket.cpp */; };
+		01BB406C1E227AE6005B54EF /* DispatchTCPSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BB406B1E227AE6005B54EF /* DispatchTCPSocket.mm */; };
+		01BB40721E229D08005B54EF /* SocketDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40701E229D08005B54EF /* SocketDataPacket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,14 +31,14 @@
 		0115C0301E210A1400021B1A /* AddressHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddressHelper.hpp; path = DispatchSocket/AddressHelper.hpp; sourceTree = "<group>"; };
 		0115C0351E210A1400021B1A /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = DispatchSocket/Socket.cpp; sourceTree = "<group>"; };
 		0115C0361E210A1400021B1A /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = DispatchSocket/Socket.hpp; sourceTree = "<group>"; };
-		0115C0391E210A1400021B1A /* TCPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPClient.cpp; path = DispatchSocket/TCPClient.cpp; sourceTree = "<group>"; };
-		0115C03A1E210A1400021B1A /* TCPClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPClient.hpp; path = DispatchSocket/TCPClient.hpp; sourceTree = "<group>"; };
-		0115C03B1E210A1400021B1A /* TCPServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPServer.cpp; path = DispatchSocket/TCPServer.cpp; sourceTree = "<group>"; };
-		0115C03C1E210A1400021B1A /* TCPServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPServer.hpp; path = DispatchSocket/TCPServer.hpp; sourceTree = "<group>"; };
-		0115C0991E21487200021B1A /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
-		0115C09A1E21487200021B1A /* DispatchSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchSocket.mm; path = DispatchSocket/DispatchSocket.mm; sourceTree = "<group>"; };
-		0115C0A21E216CD400021B1A /* ConnectedClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectedClient.cpp; path = DispatchSocket/ConnectedClient.cpp; sourceTree = "<group>"; };
-		0115C0A31E216CD400021B1A /* ConnectedClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConnectedClient.hpp; path = DispatchSocket/ConnectedClient.hpp; sourceTree = "<group>"; };
+		01BB40611E226E90005B54EF /* TCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPSocket.cpp; path = DispatchSocket/TCPSocket.cpp; sourceTree = "<group>"; };
+		01BB40621E226E90005B54EF /* TCPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPSocket.hpp; path = DispatchSocket/TCPSocket.hpp; sourceTree = "<group>"; };
+		01BB40671E2275DC005B54EF /* UDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDPSocket.cpp; path = DispatchSocket/UDPSocket.cpp; sourceTree = "<group>"; };
+		01BB40681E2275DC005B54EF /* UDPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = UDPSocket.hpp; path = DispatchSocket/UDPSocket.hpp; sourceTree = "<group>"; };
+		01BB406A1E227AE6005B54EF /* DispatchTCPSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchTCPSocket.h; path = DispatchSocket/DispatchTCPSocket.h; sourceTree = "<group>"; };
+		01BB406B1E227AE6005B54EF /* DispatchTCPSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchTCPSocket.mm; path = DispatchSocket/DispatchTCPSocket.mm; sourceTree = "<group>"; };
+		01BB40701E229D08005B54EF /* SocketDataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketDataPacket.cpp; path = DispatchSocket/SocketDataPacket.cpp; sourceTree = "<group>"; };
+		01BB40711E229D08005B54EF /* SocketDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SocketDataPacket.hpp; path = DispatchSocket/SocketDataPacket.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +102,8 @@
 		0115C0841E2118CC00021B1A /* Objc_interface */ = {
 			isa = PBXGroup;
 			children = (
-				0115C0991E21487200021B1A /* DispatchSocket.h */,
-				0115C09A1E21487200021B1A /* DispatchSocket.mm */,
+				01BB406A1E227AE6005B54EF /* DispatchTCPSocket.h */,
+				01BB406B1E227AE6005B54EF /* DispatchTCPSocket.mm */,
 			);
 			name = Objc_interface;
 			sourceTree = "<group>";
@@ -111,12 +111,12 @@
 		0115C0881E211D1E00021B1A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				0115C03B1E210A1400021B1A /* TCPServer.cpp */,
-				0115C03C1E210A1400021B1A /* TCPServer.hpp */,
-				0115C0391E210A1400021B1A /* TCPClient.cpp */,
-				0115C03A1E210A1400021B1A /* TCPClient.hpp */,
-				0115C0A21E216CD400021B1A /* ConnectedClient.cpp */,
-				0115C0A31E216CD400021B1A /* ConnectedClient.hpp */,
+				01BB40611E226E90005B54EF /* TCPSocket.cpp */,
+				01BB40621E226E90005B54EF /* TCPSocket.hpp */,
+				01BB40671E2275DC005B54EF /* UDPSocket.cpp */,
+				01BB40681E2275DC005B54EF /* UDPSocket.hpp */,
+				01BB40701E229D08005B54EF /* SocketDataPacket.cpp */,
+				01BB40711E229D08005B54EF /* SocketDataPacket.hpp */,
 				0115C0351E210A1400021B1A /* Socket.cpp */,
 				0115C0361E210A1400021B1A /* Socket.hpp */,
 				0115C02F1E210A1400021B1A /* AddressHelper.cpp */,
@@ -196,14 +196,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01BB40721E229D08005B54EF /* SocketDataPacket.cpp in Sources */,
+				01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */,
 				0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */,
-				0115C0421E210A1400021B1A /* TCPClient.cpp in Sources */,
-				0115C09B1E21487200021B1A /* DispatchSocket.mm in Sources */,
 				0115C0221E2109D600021B1A /* main.m in Sources */,
+				01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */,
 				0115C0401E210A1400021B1A /* Socket.cpp in Sources */,
+				01BB406C1E227AE6005B54EF /* DispatchTCPSocket.mm in Sources */,
 				0115C01F1E2109D600021B1A /* AppDelegate.m in Sources */,
-				0115C0A41E216CD400021B1A /* ConnectedClient.cpp in Sources */,
-				0115C0431E210A1400021B1A /* TCPServer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

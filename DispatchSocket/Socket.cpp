@@ -26,8 +26,6 @@
 
 #include "Socket.hpp"
 
-
-
 using namespace DispatchSocket;
 
 void Socket::sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const{

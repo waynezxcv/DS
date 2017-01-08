@@ -25,41 +25,42 @@
 
 
 
-
-#ifndef ConnectedClient_hpp
-#define ConnectedClient_hpp
+#ifndef SocketDataPacket_hpp
+#define SocketDataPacket_hpp
 
 #include <iostream>
-#include <dispatch/dispatch.h>
+
+
+constexpr int kBufferSize = 1024 * 32;//32 bytes
 
 
 namespace DispatchSocket {
     
-    //在服务端对已连接的客户端的抽象模型
-    class ConnectedClient {
+    struct SocketDataPacket {
+        SocketDataPacket(){
+            _data = (char *)malloc(kBufferSize);
+            _length = 0;
+        };
         
-        friend class TCPServer;
+        ~SocketDataPacket() {
+            free(_data);
+        }
         
-        explicit ConnectedClient(const int&fd ,const std::string& url) : _connectFd(fd),_url(url) {};
-        ~ConnectedClient();
-        ConnectedClient(const ConnectedClient&) = delete;
-        ConnectedClient& operator = (const ConnectedClient&) = delete;
+        void appendBuffer(char* buffer,const ssize_t& size) {
+            char* tmp = (char *)malloc(size + _length);
+            memcpy(tmp, _data,_length);
+            memcpy(tmp + _length ,buffer,size);
+            _length += size;
+            free(tmp);
+        };
         
-        void setReadSource(const dispatch_source_t& source);
-        void setWriteSource(const dispatch_source_t& source);
+        char* getData() const {
+            return _data;
+        }
         
-        dispatch_source_t getReadSource() const;
-        dispatch_source_t getWriteSource() const;
-        
-        int getFd() const;
-        std::string getURL() const;
-        
-        std::string _url;
-        int _connectFd;
-        dispatch_source_t _readSource;
-        dispatch_source_t _writeSource;
+        char* _data;
+        int _length;
     };
 }
 
-
-#endif /* ConnectedClient_hpp */
+#endif /* SocketDataPacket_hpp */

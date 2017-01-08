@@ -23,48 +23,16 @@
  THE SOFTWARE.
  */
 
+#ifndef UDPSocket_hpp
+#define UDPSocket_hpp
 
+#include "Socket.hpp"
 
-#include "ConnectedClient.hpp"
-
-
-using namespace DispatchSocket;
-
-void ConnectedClient::setReadSource(const dispatch_source_t& source) {
-    if (source) {
-        dispatch_retain(source);
-        _readSource = source;
-    }
+namespace DispatchSocket {
+    class UDPSocket {
+    public:
+        
+    };
 }
 
-ConnectedClient::~ConnectedClient() {
-    if (_writeSource) {
-        dispatch_release(_writeSource);
-    }
-    if (_readSource) {
-        dispatch_release(_readSource);
-    }
-}
-
-void ConnectedClient::setWriteSource(const dispatch_source_t& source) {
-    if (source) {
-        dispatch_retain(source);
-        _writeSource = source;
-    }
-}
-
-dispatch_source_t ConnectedClient::getReadSource() const {
-    return _readSource;
-}
-
-dispatch_source_t ConnectedClient::getWriteSource() const {
-    return _writeSource;
-}
-
-int ConnectedClient::getFd() const {
-    return _connectFd;
-}
-
-std::string ConnectedClient::getURL() const {
-    return _url;
-}
+#endif /* UDPSocket_hpp */
