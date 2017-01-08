@@ -26,9 +26,31 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef NS_ENUM(NSUInteger, DispatchTCPSocketEvent) {
+    DispatchTCPSocketEventNone,
+    DispatchTCPSocketEventOpenCompleted,
+    DispatchTCPSocketEventHasBytesAvailable,
+    DispatchTCPSocketEventHasSpaceAvailable,
+    DispatchTCPSocketEventErrorOccurred,
+    DispatchTCPSocketEventEncountered
+};
+
+
+
+@class DispatchTCPSocket;
+
+@protocol DispatchTCPSocketDelegate <NSObject>
+
+- (void)tcpSocket:(DispatchTCPSocket *)tcpSocket handleEvent:(DispatchTCPSocketEvent)event;
+
+@end
+
 @interface DispatchTCPSocket : NSObject
 
+
 - (id)init;
+- (id)initWithDelegate:(id<DispatchTCPSocketDelegate>)delegate;
 - (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
 - (void)disconnect;
 
@@ -36,5 +58,7 @@
 - (void)listenOnPort:(NSInteger)port;
 - (void)shutdown;
 - (NSInteger)getCurrentConnectedSocketsCount;
+
+@property (nonatomic,weak) id <DispatchTCPSocketDelegate> delegate;
 
 @end

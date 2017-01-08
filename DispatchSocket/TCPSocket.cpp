@@ -31,7 +31,7 @@ const int kMaxConnectCount = 32;
 
 #pragma mark - LifeCycle
 
-TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL) {
+TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
     _sockQueue = dispatch_queue_create("com.waynezxcv.DispatchSocket.sockQueue", DISPATCH_QUEUE_SERIAL);
     _connectedSockets = std::vector<TCPSocket*>();
 }
@@ -180,6 +180,7 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
     dispatch_async(connectSocket->getSockQueue(), ^{
         connectSocket->setupReadAndWriteSource(connFd, url);
     });
+    
     _connectedSockets.push_back(connectSocket);
     
 #ifdef DEBUG
@@ -192,11 +193,11 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
 }
 
 
-
 void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url) {
     /******************************* Read *************************************/
     dispatch_source_t readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,connFd,0,_sockQueue);
     __unsafe_unretained TCPSocket* weakThis = this;
+    
     dispatch_source_set_event_handler(readSource, ^{
         TCPSocket* strongThis = weakThis;
         if (strongThis == nullptr) {
@@ -205,90 +206,66 @@ void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url
         
         //获取read source中可用的字节数
         size_t available = dispatch_source_get_data(readSource);
-        if (available <= 0) {
-            if (_currentRead) {
-                printf("currentRead Lenth:%d\n",_currentRead->_length);
-                _currentRead = NULL;
-                printf("===== reset buffer ====== \n");
-                
+        if (available > 0) {
+            if (sockhandleEvent) {
+                sockhandleEvent(strongThis,TCPSocketEventHasBytesAvailable);
             }
-            return;
         }
-        
-        printf("availabel:%zu\n",available);
-        
-        char buffer[kBufferSize];
-        ssize_t length = 0;
-        
-        if (_currentRead == NULL) {
-            _currentRead = std::make_shared<SocketDataPacket>();
-        }
-        
-        
-        if (available > kBufferSize) {
-            length = read(connFd, buffer, kBufferSize);//32768
-            
-            if (length < 0) {
-#ifdef DEBUG
-                printf("read error!\n");
-#endif
-                dispatch_source_cancel(readSource);
-                return;
-            }
-            //append
-            _currentRead->appendBuffer(buffer,length);
-            printf("read size :%zd\n",length);
-            printf("current buffer size:%zd\n",_currentRead->_length);
+        else if (available == 0) {
             
         } else {
-            
-            length = read(connFd, buffer, available);
-            
-            if (length < 0) {
-#ifdef DEBUG
-                printf("read error!\n");
-#endif
-                dispatch_source_cancel(readSource);
-                return;
-            }
-            
-            else if (length > 0) {
-                _currentRead->appendBuffer(buffer,length);
-                printf("read size :%zd\n",length);
-                printf("current buffer size:%zd\n",_currentRead->_length);
-                printf("currentRead Lenth:%d\n",_currentRead->_length);
-                _currentRead = NULL;
-                printf("===== reset buffer ====== \n");
-            }
-            
-            else {
-                printf("currentRead Lenth:%d\n",_currentRead->_length);
-                _currentRead = NULL;
-                
+            if (sockhandleEvent) {
+                sockhandleEvent(strongThis,TCPSocketEventErrorOccurred);
             }
         }
     });
     
-    //read source 取消处理
+    
     dispatch_source_set_cancel_handler(readSource, ^{
+        
         dispatch_release(readSource);
+        
     });
+    
+    
     
     /******************************* Write *************************************/
     dispatch_source_t writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,connFd,0,_sockQueue);
     dispatch_source_set_event_handler(writeSource, ^{
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
         
+        size_t available = dispatch_source_get_data(writeSource);
+        if (available > 0) {
+            if (sockhandleEvent) {
+                sockhandleEvent(this,TCPSocketEventHasSpaceAvailable);
+            }
+        }
+        else if (available == 0) {
+            
+        } else {
+            if (sockhandleEvent) {
+                sockhandleEvent(this,TCPSocketEventErrorOccurred);
+            }
+        }
         
     });
+    
     
     //write source 取消处理
     dispatch_source_set_cancel_handler(writeSource, ^{
         dispatch_release(writeSource);
     });
     
+    
     //启动resource
     dispatch_resume(readSource);
     dispatch_resume(writeSource);
+    if (sockhandleEvent) {
+        sockhandleEvent(this,TCPSocketEventOpenCompleted);
+    }
 }
 
 
@@ -378,12 +355,12 @@ bool TCPSocket::sockDisconnect() {
 
 #pragma mark - I/O
 
-ssize_t TCPSocket::sockRead(int fd, void* buffer,size_t length) {
-    return 0;
+ssize_t TCPSocket::sockRead(const int& fd, void* buffer,const size_t& length) {
+    return read(fd, buffer, length);
 }
 
-ssize_t TCPSocket::sockWrite(int fd, void* buffer,size_t length) {
-    return 0;
+ssize_t TCPSocket::sockWrite(const int& fd, void* buffer,const size_t& length) {
+    return write(fd, buffer, length);
 }
 
 #pragma mark - close

@@ -27,12 +27,21 @@
 #define TCPSocket_hpp
 
 #include "Socket.hpp"
-#include "SocketDataPacket.hpp"
 #include <vector>
 
 
+typedef enum {
+    TCPSocketEventNone,
+    TCPSocketEventOpenCompleted,
+    TCPSocketEventHasBytesAvailable,
+    TCPSocketEventHasSpaceAvailable,
+    TCPSocketEventErrorOccurred,
+    TCPSocketEventEncountered
+} TCPSocketEvent;
+
 
 namespace DispatchSocket {
+    
     
     class TCPSocket : public Socket {
         
@@ -54,16 +63,17 @@ namespace DispatchSocket {
         bool sockDisconnect();//断开连接
         
 #pragma mark - I/O
-        ssize_t sockRead(int fd, void* buffer,size_t length);//读
-        ssize_t sockWrite(int fd, void* buffer,size_t length); //写
+        ssize_t sockRead(const int& fd, void* buffer,const size_t& length) override;//读
+        ssize_t sockWrite(const int& fd, void* buffer,const size_t& length) override;//写
         
 #pragma mark - Setter & Getter
         void setSockFd (const int& fd);//设置socket文件描述符
         void setAddressFamily(const int& af);//获取socket地址协议族类型
-        
         int getSockFd() const;//获取socket文件描述符
         int getSockAddressFamily() const;//设置socket地址协议族类型
         dispatch_queue_t getSockQueue() const;//获取socket连接的队列
+        
+        void (*sockhandleEvent)(void* socket,TCPSocketEvent event);
         
     private:
         int _sockFd;//socket文件描述符
@@ -78,8 +88,6 @@ namespace DispatchSocket {
         bool sockClose(const int& fd);//通过socket文件描述符关闭socket
         void acceptHandler(const int& fd,const std::string& url);//接收事件处理
         void setupReadAndWriteSource(const int& fd,const std::string& url);//设置读写事件
-        
-        std::shared_ptr<SocketDataPacket> _currentRead;
     };
 }
 

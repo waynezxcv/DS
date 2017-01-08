@@ -15,7 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.tcpClient = [[DispatchTCPSocket alloc] init];
-    [self.tcpClient connectToHost:@"192.168.1.101" onPort:49317];
+    [self.tcpClient connectToHost:@"192.168.1.101" onPort:58921];
     return YES;
 }
 

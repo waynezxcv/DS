@@ -16,7 +16,6 @@
 		01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40611E226E90005B54EF /* TCPSocket.cpp */; };
 		01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40671E2275DC005B54EF /* UDPSocket.cpp */; };
 		01BB406C1E227AE6005B54EF /* DispatchTCPSocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BB406B1E227AE6005B54EF /* DispatchTCPSocket.mm */; };
-		01BB40721E229D08005B54EF /* SocketDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40701E229D08005B54EF /* SocketDataPacket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +36,6 @@
 		01BB40681E2275DC005B54EF /* UDPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = UDPSocket.hpp; path = DispatchSocket/UDPSocket.hpp; sourceTree = "<group>"; };
 		01BB406A1E227AE6005B54EF /* DispatchTCPSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchTCPSocket.h; path = DispatchSocket/DispatchTCPSocket.h; sourceTree = "<group>"; };
 		01BB406B1E227AE6005B54EF /* DispatchTCPSocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DispatchTCPSocket.mm; path = DispatchSocket/DispatchTCPSocket.mm; sourceTree = "<group>"; };
-		01BB40701E229D08005B54EF /* SocketDataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketDataPacket.cpp; path = DispatchSocket/SocketDataPacket.cpp; sourceTree = "<group>"; };
-		01BB40711E229D08005B54EF /* SocketDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SocketDataPacket.hpp; path = DispatchSocket/SocketDataPacket.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +112,6 @@
 				01BB40621E226E90005B54EF /* TCPSocket.hpp */,
 				01BB40671E2275DC005B54EF /* UDPSocket.cpp */,
 				01BB40681E2275DC005B54EF /* UDPSocket.hpp */,
-				01BB40701E229D08005B54EF /* SocketDataPacket.cpp */,
-				01BB40711E229D08005B54EF /* SocketDataPacket.hpp */,
 				0115C0351E210A1400021B1A /* Socket.cpp */,
 				0115C0361E210A1400021B1A /* Socket.hpp */,
 				0115C02F1E210A1400021B1A /* AddressHelper.cpp */,
@@ -196,7 +191,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01BB40721E229D08005B54EF /* SocketDataPacket.cpp in Sources */,
 				01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */,
 				0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */,
 				0115C0221E2109D600021B1A /* main.m in Sources */,

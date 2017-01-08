@@ -4,7 +4,7 @@
 
 
 
-@interface AppDelegate ()
+@interface AppDelegate ()<DispatchTCPSocketDelegate>
 
 @property (weak) IBOutlet NSWindow *window;
 @property (nonatomic,strong) DispatchTCPSocket* server;
@@ -13,7 +13,7 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    self.server = [[DispatchTCPSocket alloc] init];
+    self.server = [[DispatchTCPSocket alloc] initWithDelegate:self];
     [self.server listen];
 }
 

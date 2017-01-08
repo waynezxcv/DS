@@ -39,8 +39,13 @@ namespace DispatchSocket {
     class Socket {
         
     public:
+        
         Socket(){};
         virtual ~Socket(){};
+        
+        virtual ssize_t sockRead(const int& fd, void* buffer,const size_t& length) = 0;//读
+        virtual ssize_t sockWrite(const int& fd, void* buffer,const size_t& length) = 0;//写
+        
         //获取socket
         void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
         

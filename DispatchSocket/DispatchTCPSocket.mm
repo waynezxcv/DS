@@ -28,6 +28,9 @@
 #import "TCPSocket.hpp"
 
 
+
+void evnentHandler(void* socket, TCPSocketEvent event);
+
 @interface DispatchTCPSocket () {
     DispatchSocket::TCPSocket* _tcpSocket;
 }
@@ -43,6 +46,19 @@
     }
     return self;
 }
+
+
+- (id)initWithDelegate:(id<DispatchTCPSocketDelegate>)delegate {
+    self = [super init];
+    if (self) {
+        _tcpSocket = new DispatchSocket::TCPSocket();
+        _tcpSocket->sockhandleEvent = evnentHandler;
+
+        self.delegate = delegate;
+    }
+    return self;
+}
+
 
 - (void)dealloc {
     delete _tcpSocket;
@@ -73,3 +89,10 @@
 }
 
 @end
+
+
+void evnentHandler(void* socket, TCPSocketEvent event) {
+    printf("event:%u",event);
+    
+}
+
