@@ -23,4 +23,10 @@
  THE SOFTWARE.
  */
 
-#include "UDPSocket.hpp"
+
+
+#import "DSObjecInterface.h"
+
+@implementation DSObjecInterface
+
+@end

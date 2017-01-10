@@ -35,23 +35,19 @@
 #define BUFFER_SIZE 32768
 
 namespace DispatchSocket {
-    
+
     class Socket {
-        
     public:
-        
         Socket(){};
         virtual ~Socket(){};
         
-        virtual ssize_t sockRead(const int& fd, void* buffer,const size_t& length) = 0;//读
-        virtual ssize_t sockWrite(const int& fd, void* buffer,const size_t& length) = 0;//写
+        virtual ssize_t sockRead(void* buffer,const size_t& length) = 0;//读
+        virtual ssize_t sockWrite(void* buffer,const size_t& length) = 0;//写
         
         //获取socket
         void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
-        
         //获取对端socket
         void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
-        
         //获取局域网IP
         std::string sockGetIfaddrs() const;
     };

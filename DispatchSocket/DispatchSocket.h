@@ -23,42 +23,13 @@
  THE SOFTWARE.
  */
 
+#ifndef DispatchSocket_h
+#define DispatchSocket_h
 
-#import <Foundation/Foundation.h>
-
-
-typedef NS_ENUM(NSUInteger, DispatchTCPSocketEvent) {
-    DispatchTCPSocketEventNone,
-    DispatchTCPSocketEventOpenCompleted,
-    DispatchTCPSocketEventHasBytesAvailable,
-    DispatchTCPSocketEventHasSpaceAvailable,
-    DispatchTCPSocketEventErrorOccurred,
-    DispatchTCPSocketEventEncountered
-};
+#include "TCPServer.hpp"
+#include "TCPClient.hpp"
+#include "PacketEncoder.hpp"
+#include "PacketDecoder.hpp"
 
 
-
-@class DispatchTCPSocket;
-
-@protocol DispatchTCPSocketDelegate <NSObject>
-
-- (void)tcpSocket:(DispatchTCPSocket *)tcpSocket handleEvent:(DispatchTCPSocketEvent)event;
-
-@end
-
-@interface DispatchTCPSocket : NSObject
-
-
-- (id)init;
-- (id)initWithDelegate:(id<DispatchTCPSocketDelegate>)delegate;
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
-- (void)disconnect;
-
-- (void)listen;
-- (void)listenOnPort:(NSInteger)port;
-- (void)shutdown;
-- (NSInteger)getCurrentConnectedSocketsCount;
-
-@property (nonatomic,weak) id <DispatchTCPSocketDelegate> delegate;
-
-@end
+#endif /* DispatchSocket_h */

@@ -23,4 +23,9 @@
  THE SOFTWARE.
  */
 
-#include "UDPSocket.hpp"
+
+#import <Foundation/Foundation.h>
+
+@interface DSObjecInterface : NSObject
+
+@end

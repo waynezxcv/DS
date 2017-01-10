@@ -23,4 +23,22 @@
  THE SOFTWARE.
  */
 
-#include "UDPSocket.hpp"
+
+
+#ifndef Decoder_hpp
+#define Decoder_hpp
+
+#include <stdio.h>
+#include "DataPacket.hpp"
+
+
+
+namespace DispatchSocket {
+    
+    class PacketDecoder {
+        virtual void encode(const DataPacket& packet) = 0;
+    };
+    
+}
+
+#endif /* Decoder_hpp */

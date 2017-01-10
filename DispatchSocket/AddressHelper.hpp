@@ -42,25 +42,18 @@ namespace DispatchSocket {
     public:
         //输入ip地址和端口号获取通用型地址结构
         static void getSockaddrStruct(const std::string& interface,const u_int16_t& port,struct sockaddr* outputAddr);
-        
         //输入ip地址和端口号获取IPv4型地址结构
         static void getSockAddrInStruct(const std::string& interface,const u_int16_t& port,struct sockaddr_in* outputAddr_in);
-        
         //输入ip地址和端口号获取IPv6型地址结构
         static void getSockAddrIn6Struct(const std::string& interface,const u_int16_t& port,struct sockaddr_in6* outputAddr_in6);
-        
         //输入IPv4型地址结构，获取URL字符串（ip:端口号）
         static std::string getUrl(const struct sockaddr_in* addr_in);
-        
         //输入IPv6型地址结构，获取URL字符串（ip:端口号）
         static std::string getUrl(const struct sockaddr_in6* addr_in6);
-        
         //输入通用型地址结构，获取URL字符串（ip:端口号）
         static std::string getUrl(const struct sockaddr* addr);
-        
         //判断一个地址是否是IPv4型地址
         static bool isIPv4Addr(const struct sockaddr* addr);
-        
         //判断一个地址是否是IPv6型地址
         static bool isIPv6Addr(const struct sockaddr* addr);
     };

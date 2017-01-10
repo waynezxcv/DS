@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>DispatchSocketClientDemo.xcscheme</key>
+		<key>DispatchSocketDemo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0115C04C1E210BAD00021B1A</key>
+		<key>0115C0191E2109D600021B1A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

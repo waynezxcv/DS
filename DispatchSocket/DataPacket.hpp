@@ -23,4 +23,22 @@
  THE SOFTWARE.
  */
 
-#include "UDPSocket.hpp"
+
+
+#ifndef DataPacket_hpp
+#define DataPacket_hpp
+
+#include <iostream>
+
+
+namespace DispatchSocket {
+    
+    struct DataPacket {
+        DataPacket();
+        ~DataPacket(){};
+        int packetId;
+        uint8_t* object;
+    };
+}
+
+#endif /* DataPacket_hpp */
