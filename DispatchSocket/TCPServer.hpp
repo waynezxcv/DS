@@ -39,6 +39,8 @@ namespace DispatchSocket {
 
     class TCPServer {
     public:
+        TCPServer();
+        
         TCPServer(PacketEncoder& encoder, PacketDecoder& decoder);
         ~TCPServer();
         TCPServer(const TCPServer&) = delete;
@@ -53,7 +55,7 @@ namespace DispatchSocket {
         
         
         //call back
-        void (*didAcceptNewClientCallback)(std::string clientURL);
+        void serverHasBytesAvailableCallBack (TCPSocket* socket,const dispatch_queue_t& queue);
         
         void (*didReceiveDataCallBack)(void* data);
         

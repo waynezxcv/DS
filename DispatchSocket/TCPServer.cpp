@@ -35,6 +35,20 @@ TCPServer::TCPServer( PacketEncoder& encoder, PacketDecoder& decoder) : _encoder
     _streamObserver = new ServerStreamObserver();
     _socketObserver = new ServerSocketObserver();
     _socket = new TCPSocket(_socketObserver,_streamObserver);
+    
+    std::function<void(TCPSocket*,const dispatch_queue_t&)> f1 = _socket->hasBytesAvailableCallBack;
+    
+TCPServer:
+    
+    
+//    auto pmf = &TCPServer::serverHasBytesAvailableCallBack;
+
+    
+}
+
+
+void TCPServer::serverHasBytesAvailableCallBack(TCPSocket* socket,const dispatch_queue_t& queue) {
+    printf("has!!");
 }
 
 TCPServer::~TCPServer() {

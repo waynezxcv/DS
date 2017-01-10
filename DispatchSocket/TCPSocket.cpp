@@ -214,35 +214,35 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
     _socketObserver->didAcceptNewClient(this, connectSocket);
 }
 
+
+
+
 void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url) {
     __unsafe_unretained TCPSocket* weakThis = this;
     /******************************* Read *************************************/
     _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,connFd,0,_sockQueue);
     dispatch_source_set_event_handler(_readSource, ^{
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        if (_streamObserver == nullptr) {
-            return;
-        }
-        size_t available = dispatch_source_get_data(_readSource);
-        
-        if (available > 0) {
-            _streamObserver->hasBytesAvailable(strongThis, _sockQueue);
-        } else {
-            _streamObserver->readEOF(strongThis, _sockQueue);
-        }
+//        TCPSocket* strongThis = weakThis;
+//
+//        size_t available = dispatch_source_get_data(_readSource);
+//        
+//        if (available > 0) {
+//            
+//            if (hasBytesAvailableCallBack != nullptr) {
+//                hasBytesAvailableCallBack(strongThis,_sockQueue);
+//
+//            }
+//            
+//            _streamObserver->hasBytesAvailable(strongThis, _sockQueue);
+//        }
+//        else {
+//            _streamObserver->readEOF(strongThis, _sockQueue);
+//        }
     });
     
     dispatch_source_set_cancel_handler(_readSource, ^{
         TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        if (_streamObserver == nullptr) {
-            return;
-        }
+
         _streamObserver->errorOccurred(strongThis);
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
         _flags.readSourceOpened = false;
@@ -252,29 +252,20 @@ void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url
     
     _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,connFd,0,_sockQueue);
     dispatch_source_set_event_handler(_writeSource,^() {
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        if (_streamObserver == nullptr) {
-            return;
-        }
-        size_t available = dispatch_source_get_data(_writeSource);
-        if (available > 0) {
-            _streamObserver->hasSpaceAvailable(strongThis, _sockQueue);
-        } else {
-            _streamObserver->writeEOF(strongThis, _sockQueue);
-        }
+//        TCPSocket* strongThis = weakThis;
+//
+//        size_t available = dispatch_source_get_data(_writeSource);
+//        if (available > 0) {
+//            _streamObserver->hasSpaceAvailable(strongThis, _sockQueue);
+//        }
+//        else {
+//            _streamObserver->writeEOF(strongThis, _sockQueue);
+//        }
     });
     
     dispatch_source_set_cancel_handler(_writeSource,^{
         TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        if (_streamObserver == nullptr) {
-            return;
-        }
+
         _streamObserver->errorOccurred(strongThis);
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
         _flags.writeSourceOpened = false;

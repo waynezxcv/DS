@@ -8,7 +8,9 @@ using namespace DispatchSocket;
 
 @interface AppDelegate ()
 
-
+{
+    TCPServer* _server;
+}
 @property (weak) IBOutlet NSWindow *window;
 
 @end
@@ -18,6 +20,10 @@ using namespace DispatchSocket;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+    _server = new TCPServer();
+    
+    _server->serverListen(58953);
+    
 }
 
 

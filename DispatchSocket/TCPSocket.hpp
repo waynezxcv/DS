@@ -29,7 +29,7 @@
 #include "Socket.hpp"
 #include <vector>
 
-
+class TCPServer;
 
 
 typedef struct {
@@ -130,7 +130,6 @@ namespace DispatchSocket {
         dispatch_queue_t getSockQueue() const;//获取socket连接的队列
         
     private:
-        
         int _sockFd;//socket文件描述符
         int _addressFamily;//地址协议族
         std::vector<TCPSocket *> _connectedSockets;//如果是服务端，存放已经连接的客户端Socket
