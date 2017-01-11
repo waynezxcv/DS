@@ -31,30 +31,59 @@ using namespace DispatchSocket;
 
 #pragma mark - TCPServer
 
-TCPServer::TCPServer( PacketEncoder& encoder, PacketDecoder& decoder) : _encoder(encoder),_decoder(decoder) {
-    _streamObserver = new ServerStreamObserver();
-    _socketObserver = new ServerSocketObserver();
-    _socket = new TCPSocket(_socketObserver,_streamObserver);
-    
-    std::function<void(TCPSocket*,const dispatch_queue_t&)> f1 = _socket->hasBytesAvailableCallBack;
-    
-TCPServer:
-    
-    
-//    auto pmf = &TCPServer::serverHasBytesAvailableCallBack;
+TCPServer::TCPServer() {
+    _socket = new TCPSocket();
+    setupCallBack();
+}
 
+//TCPServer::TCPServer( PacketEncoder& encoder, PacketDecoder& decoder) : _encoder(encoder),_decoder(decoder) {
+//    _socket = new TCPSocket();
+//}
+
+void TCPServer::setupCallBack() {
+    _socket->startListenCallBack = std::bind(&TCPServer::startListenCallBack,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    _socket->didAcceptNewClientCallBack = std::bind(&TCPServer::didAcceptNewClientCallBack,this,std::placeholders::_1,std::placeholders::_2);
+    _socket->hasBytesAvailableCallBack = std::bind(&TCPServer::hasBytesAvailableCallBack, this,std::placeholders::_1,std::placeholders::_2);
+    _socket->hasSpaceAvailableCallBack = std::bind(&TCPServer::hasSpaceAvailableCallBack, this,std::placeholders::_1,std::placeholders::_2);
+    _socket->readEOFCallBack = std::bind(&TCPServer::readEOFCallBack,this,std::placeholders::_1,std::placeholders::_2);
+    _socket->writeEOFCallBack = std::bind(&TCPServer::writeEOFCallBack, this,std::placeholders::_1,std::placeholders::_2);
+    _socket->errorOccuerred = std::bind(&TCPServer::errorOccuerred, this,std::placeholders::_1);
+}
+
+void TCPServer::startListenCallBack(TCPSocket* tcpSock,const std::string& host,const uint16_t& port) {
+    std::cout<<"start listen! host:" <<host<<"  port:"<<port<<std::endl;
+}
+
+void TCPServer::didAcceptNewClientCallBack(TCPSocket* server,TCPSocket* client) {
+    std::cout<<"accept a new client!"<<std::endl;
+}
+
+void TCPServer::hasBytesAvailableCallBack(TCPSocket* tcpSock,const dispatch_queue_t& queue) {
+    std::cout<<"has bytes available!"<<std::endl;
     
 }
 
+void TCPServer::hasSpaceAvailableCallBack(TCPSocket* tcpSock,const dispatch_queue_t& queue) {
+    std::cout<<"has space available!"<<std::endl;
+    
+}
+void TCPServer::readEOFCallBack(TCPSocket* tcpSock,const dispatch_queue_t& queue) {
+    std::cout<<"read EOF!"<<std::endl;
+    
+}
 
-void TCPServer::serverHasBytesAvailableCallBack(TCPSocket* socket,const dispatch_queue_t& queue) {
-    printf("has!!");
+void TCPServer::writeEOFCallBack(TCPSocket* tcpSock,const dispatch_queue_t& queue) {
+    std::cout<<"write EOF!"<<std::endl;
+    
+}
+
+void TCPServer::errorOccuerred(TCPSocket* tcpSock) {
+    std::cout<<"error occueered!"<<std::endl;
+    
 }
 
 TCPServer::~TCPServer() {
     delete _socket;
-    delete _socketObserver;
-    delete _streamObserver;
 }
 
 void TCPServer::serverListen() {
@@ -72,55 +101,3 @@ void TCPServer::serverShutdown() {
 unsigned TCPServer::currentConnectsCount() {
     return _socket->currentConnectedSocketsCount();
 }
-
-#pragma mark - Strem Observer
-
-void ServerStreamObserver::hasBytesAvailable(TCPSocket* socket,const dispatch_queue_t& queue) {
-    uint8_t buffer[1024];
-    ssize_t len = socket->sockRead(buffer, 1024);
-
-
-}
-
-
-void ServerStreamObserver::hasSpaceAvailable(TCPSocket* socket,const dispatch_queue_t& queue) {
-    uint8_t buffer[1024];
-    ssize_t len = socket->sockWrite(buffer, 1024);
-    
-}
-
-void ServerStreamObserver::readEOF(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-
-void ServerStreamObserver::writeEOF(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-
-void ServerStreamObserver::errorOccurred(TCPSocket* socket) {
-    printf("error occurred!\n");
-}
-
-#pragma mark - Socket Observer
-void ServerSocketObserver::didAcceptNewClient(TCPSocket* server,TCPSocket* client) {
-    std::string ip;
-    uint16_t port;
-    client->sockGetPeerName(client->getSockFd(), ip, port);
-#ifdef DEBUG
-    std::cout<<"*** *** *** *** ***"<<std::endl;
-    std::cout<<"accept!  connect Fd:"<<client->getSockFd()<<std::endl;
-    std::cout<<"client address:"<<ip<<":"<<port<<std::endl;
-    std::cout<<"*** *** *** *** ***"<<std::endl;
-#endif
-}
-
-
-void ServerSocketObserver::aClientDidDisconnected(const std::string& clientURL) {
-
-
-
-}
-
-

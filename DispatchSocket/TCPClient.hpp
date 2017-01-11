@@ -33,10 +33,6 @@
 
 
 namespace DispatchSocket {
-    
-    class ClientSocketObserver;
-    class ClientStreamObserver;
-    
     class TCPClient {
     public:
         TCPClient(PacketEncoder& encoder, PacketDecoder& decoder);
@@ -49,38 +45,9 @@ namespace DispatchSocket {
         
     private:
         DispatchSocket::TCPSocket* _socket;
-        ClientSocketObserver* _socketObserver;
-        StreamEventObserver* _streamObserver;
         PacketEncoder& _encoder;
         PacketDecoder& _decoder;
     };
-    
-    
-    
-    class ClientSocketObserver : public TCPClientObserver {
-    public:
-        ClientSocketObserver(){};
-        ~ClientSocketObserver(){};
-        
-        void didConnected(const std::string& host,const uint16_t& port) override;
-        void didDisconnected() override;
-    };
-    
-    
-    class ClientStreamObserver : public StreamEventObserver {
-    public:
-        
-        ClientStreamObserver() {};
-        ~ClientStreamObserver() {};
-        
-        void hasBytesAvailable(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void hasSpaceAvailable(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void readEOF(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void writeEOF(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void errorOccurred(TCPSocket* socket) override;
-    };
-    
-    
 }
 
 

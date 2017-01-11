@@ -29,16 +29,12 @@
 using namespace DispatchSocket;
 
 TCPClient::TCPClient(PacketEncoder& encoder, PacketDecoder& decoder) : _encoder(encoder),_decoder(decoder) {
-    _socketObserver = new ClientSocketObserver();
-    _streamObserver = new ClientStreamObserver();
-    _socket = new DispatchSocket::TCPSocket(_socketObserver,_streamObserver);
+    _socket = new DispatchSocket::TCPSocket();
 }
 
 
 TCPClient::~TCPClient() {
     delete _socket;
-    delete _socketObserver;
-    delete _streamObserver;
 }
 
 void TCPClient::clientConnect(const std::string& host,const int& port) {
@@ -49,49 +45,4 @@ void TCPClient::clientConnect(const std::string& host,const int& port) {
 void TCPClient::clientDisconnect() {
     _socket->sockDisconnect();
 }
-
-
-#pragma mark - Strem Observer
-
-void ClientStreamObserver::hasBytesAvailable(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-void ClientStreamObserver::hasSpaceAvailable(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-
-void ClientStreamObserver::readEOF(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-
-void ClientStreamObserver::writeEOF(TCPSocket* socket,const dispatch_queue_t& queue) {
-    
-}
-
-
-void ClientStreamObserver::errorOccurred(TCPSocket* socket) {
-    
-}
-
-
-#pragma mark - Socket Observer
-
-void ClientSocketObserver::didConnected(const std::string& host,const uint16_t& port) {
-#ifdef DEBUG
-    std::cout<<"*** *** *** *** ***"<<std::endl;
-    std::cout<<"host  "<<host<<":"<<port<<std::endl;
-    std::cout<<"*** *** *** *** ***"<<std::endl;
-#endif
-}
-
-
-void ClientSocketObserver::didDisconnected() {
-    
-}
-
-
-
 

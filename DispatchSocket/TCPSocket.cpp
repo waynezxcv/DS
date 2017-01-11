@@ -32,9 +32,7 @@ const int kMaxConnectCount = 32;
 #pragma mark - LifeCycle
 
 
-TCPSocket::TCPSocket(TCPSocketEventObserver* socketObserver,StreamEventObserver* streamObserver)
-: _socketObserver(socketObserver),_streamObserver(streamObserver), _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
-    
+TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
     _sockQueue = dispatch_queue_create("com.waynezxcv.DispatchSocket.sockQueue", DISPATCH_QUEUE_SERIAL);
     _semaphore = dispatch_semaphore_create(1);
     _flags.socketOpened = false;
@@ -139,14 +137,14 @@ bool TCPSocket::sockListen(const uint16_t &port) {
     _flags.socketOpened = true;
     dispatch_semaphore_signal(_semaphore);
     
-#ifdef DEBUG
+    //开始监听
     uint16_t p;
     std::string host;
     sockGetSockName(_sockFd,host, p);
-    std::cout<<"server start listen!  listenFd:"<<_sockFd<<std::endl;
-    std::cout<<"host:"<<sockGetIfaddrs()<<std::endl;
-    std::cout<<"port:"<<p<<std::endl;
-#endif
+    if (startListenCallBack != nullptr) {
+        startListenCallBack(this,sockGetIfaddrs(),p);
+    }
+    
     //accept source
     __unsafe_unretained TCPSocket* weakThis = this;
     dispatch_source_t acceptSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,_sockFd,0,_sockQueue);
@@ -199,7 +197,7 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
         return;
     }
     
-    TCPSocket* connectSocket = new TCPSocket(_socketObserver,_streamObserver);
+    TCPSocket* connectSocket = new TCPSocket();
     connectSocket->setSockFd(connFd);
     connectSocket->setAddressFamily(_addressFamily);
     
@@ -211,39 +209,42 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
     _connectedSockets.push_back(connectSocket);
     
     //有新的客户端连接通知
-    _socketObserver->didAcceptNewClient(this, connectSocket);
+    if (didAcceptNewClientCallBack != nullptr) {
+        didAcceptNewClientCallBack(this,connectSocket);
+    }
 }
-
-
-
 
 void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url) {
     __unsafe_unretained TCPSocket* weakThis = this;
     /******************************* Read *************************************/
     _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,connFd,0,_sockQueue);
     dispatch_source_set_event_handler(_readSource, ^{
-//        TCPSocket* strongThis = weakThis;
-//
-//        size_t available = dispatch_source_get_data(_readSource);
-//        
-//        if (available > 0) {
-//            
-//            if (hasBytesAvailableCallBack != nullptr) {
-//                hasBytesAvailableCallBack(strongThis,_sockQueue);
-//
-//            }
-//            
-//            _streamObserver->hasBytesAvailable(strongThis, _sockQueue);
-//        }
-//        else {
-//            _streamObserver->readEOF(strongThis, _sockQueue);
-//        }
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        
+        size_t available = dispatch_source_get_data(_readSource);
+        if (available > 0) {
+            if (hasBytesAvailableCallBack != nullptr) {
+                hasBytesAvailableCallBack(strongThis,_sockQueue);
+            }
+        } else {
+            if (readEOFCallBack != nullptr) {
+                readEOFCallBack(strongThis,_sockQueue);
+            }
+        }
     });
     
     dispatch_source_set_cancel_handler(_readSource, ^{
         TCPSocket* strongThis = weakThis;
-
-        _streamObserver->errorOccurred(strongThis);
+        if (strongThis == nullptr) {
+            return ;
+        }
+        
+        if (errorOccuerred != nullptr) {
+            errorOccuerred(strongThis);
+        }
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
         _flags.readSourceOpened = false;
         dispatch_semaphore_signal(_semaphore);
@@ -252,21 +253,32 @@ void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url
     
     _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,connFd,0,_sockQueue);
     dispatch_source_set_event_handler(_writeSource,^() {
-//        TCPSocket* strongThis = weakThis;
-//
-//        size_t available = dispatch_source_get_data(_writeSource);
-//        if (available > 0) {
-//            _streamObserver->hasSpaceAvailable(strongThis, _sockQueue);
-//        }
-//        else {
-//            _streamObserver->writeEOF(strongThis, _sockQueue);
-//        }
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        size_t available = dispatch_source_get_data(_writeSource);
+        if (available > 0) {
+            if (hasSpaceAvailableCallBack != nullptr) {
+                hasSpaceAvailableCallBack(strongThis,_sockQueue);
+            }
+        } else {
+            if (writeEOFCallBack != nullptr) {
+                writeEOFCallBack(strongThis,_sockQueue);
+            }
+        }
     });
     
     dispatch_source_set_cancel_handler(_writeSource,^{
         TCPSocket* strongThis = weakThis;
-
-        _streamObserver->errorOccurred(strongThis);
+        if (strongThis == nullptr) {
+            return ;
+        }
+        
+        if (errorOccuerred != nullptr) {
+            errorOccuerred(strongThis);
+        }
+        
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
         _flags.writeSourceOpened = false;
         dispatch_semaphore_signal(_semaphore);
@@ -362,7 +374,9 @@ bool TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
     });
     
     //客户端连接到主机通知
-    _socketObserver->didConnected(host, port);
+    if (didConnectedToHostCallBack != nullptr) {
+        didConnectedToHostCallBack(this,host,port);
+    }
     return (LW_SOCK_NULL != _sockFd);
 }
 
@@ -370,7 +384,9 @@ bool TCPSocket::sockDisconnect() {
     int flag = sockClose(_sockFd);
     if ( flag > 0) {
         //客户端断开通知
-        _socketObserver->didDisconnected();
+        if (didDisconnectdCallBack) {
+            didDisconnectdCallBack();
+        }
     }
     return (LW_SOCK_NULL != flag);
 }

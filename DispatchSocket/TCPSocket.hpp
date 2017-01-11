@@ -29,8 +29,6 @@
 #include "Socket.hpp"
 #include <vector>
 
-class TCPServer;
-
 
 typedef struct {
     bool socketOpened : 1;
@@ -42,72 +40,10 @@ typedef struct {
 
 namespace DispatchSocket {
     
-    class TCPSocket;
-    
-    /********************   Stream Abstract ********************************/
-    class StreamEventObserver {
-    public:
-        StreamEventObserver(){};
-        virtual ~StreamEventObserver(){};
-        
-        virtual void hasBytesAvailable(TCPSocket* socket,const dispatch_queue_t& queue) = 0;
-        virtual void hasSpaceAvailable(TCPSocket* socket,const dispatch_queue_t& queue) = 0;
-        virtual void readEOF(TCPSocket* socket,const dispatch_queue_t& queue) = 0;
-        virtual void writeEOF(TCPSocket* socket,const dispatch_queue_t& queue) = 0;
-        virtual void errorOccurred(TCPSocket* socket) = 0;
-    };
-    
-    /*********************************************************************/
-    
-    
-    /********************   TCPSocketEventObserver Abstract ********************************/
-    class TCPSocketEventObserver {
-    public:
-        TCPSocketEventObserver() {};
-        virtual ~TCPSocketEventObserver() {};
-        
-        virtual void didAcceptNewClient(TCPSocket* server,TCPSocket* client) = 0;
-        virtual void aClientDidDisconnected(const std::string& clientURL) = 0;//TODO:
-        
-        virtual void didConnected(const std::string& host,const uint16_t& port) = 0;
-        virtual void didDisconnected() = 0;
-    };
-    
-    
-    class TCPServerEventObserver : public TCPSocketEventObserver {
-    public:
-        TCPServerEventObserver(){};
-        virtual ~TCPServerEventObserver(){};
-        
-        void didAcceptNewClient(TCPSocket* server,TCPSocket* client) override {};
-        void aClientDidDisconnected(const std::string& clientURL) override {};
-        
-        
-        //not implement
-        void didConnected(const std::string& host,const uint16_t& port) final {};
-        void didDisconnected() final {};
-    };
-    
-    
-    class TCPClientObserver : public TCPSocketEventObserver {
-    public:
-        TCPClientObserver(){};
-        virtual ~TCPClientObserver(){};
-        void didConnected(const std::string& host,const uint16_t& port) override {};
-        void didDisconnected() override {};
-        
-        //not implement
-        void didAcceptNewClient(TCPSocket* server,TCPSocket* client) final {};
-        void aClientDidDisconnected(const std::string& clientURL) final {};
-    };
-    /*********************************************************************/
-    
-    
-    
     class TCPSocket : public Socket {
     public:
         
-        explicit TCPSocket(TCPSocketEventObserver* socketObserver,StreamEventObserver* streamObserver);
+        TCPSocket();
         ~TCPSocket();
         TCPSocket(const TCPSocket&) = delete;
         TCPSocket& operator = (const TCPSocket&) = delete;
@@ -129,6 +65,18 @@ namespace DispatchSocket {
         int getSockAddressFamily() const;//设置socket地址协议族类型
         dispatch_queue_t getSockQueue() const;//获取socket连接的队列
         
+        //回调函数
+        std::function<void(TCPSocket*,const dispatch_queue_t&)> hasBytesAvailableCallBack;
+        std::function<void(TCPSocket*,const dispatch_queue_t&)> hasSpaceAvailableCallBack;
+        std::function<void(TCPSocket*,const dispatch_queue_t&)> readEOFCallBack;
+        std::function<void(TCPSocket*,const dispatch_queue_t&)> writeEOFCallBack;
+        std::function<void(TCPSocket*)> errorOccuerred;
+        
+        std::function<void(TCPSocket*,const std::string&,const uint16_t&)> startListenCallBack;
+        std::function<void(TCPSocket*,TCPSocket*)> didAcceptNewClientCallBack;
+        std::function<void(TCPSocket*,const std::string&,const uint16_t&)> didConnectedToHostCallBack;
+        std::function<void(void)> didDisconnectdCallBack;
+        
     private:
         int _sockFd;//socket文件描述符
         int _addressFamily;//地址协议族
@@ -144,9 +92,6 @@ namespace DispatchSocket {
         bool sockClose(const int& fd);//通过socket文件描述符关闭socket
         void acceptHandler(const int& fd,const std::string& url);//接收事件处理
         void setupReadAndWriteSource(const int& fd,const std::string& url);//设置读写事件
-        
-        StreamEventObserver* _streamObserver;
-        TCPSocketEventObserver* _socketObserver;
     };
 }
 

@@ -34,14 +34,11 @@
 
 namespace DispatchSocket {
     
-    class ServerStreamObserver;
-    class ServerSocketObserver;
-
+    
     class TCPServer {
     public:
         TCPServer();
-        
-        TCPServer(PacketEncoder& encoder, PacketDecoder& decoder);
+//        TCPServer(PacketEncoder& encoder, PacketDecoder& decoder);
         ~TCPServer();
         TCPServer(const TCPServer&) = delete;
         TCPServer& operator = (const TCPServer&) = delete;
@@ -52,43 +49,21 @@ namespace DispatchSocket {
         unsigned currentConnectsCount();
         
         
-        
-        
-        //call back
-        void serverHasBytesAvailableCallBack (TCPSocket* socket,const dispatch_queue_t& queue);
-        
-        void (*didReceiveDataCallBack)(void* data);
-        
+        void setupCallBack();
+        void startListenCallBack(TCPSocket*,const std::string&,const uint16_t&);
+        void didAcceptNewClientCallBack(TCPSocket*,TCPSocket*);
+        void hasBytesAvailableCallBack(TCPSocket*,const dispatch_queue_t&);
+        void hasSpaceAvailableCallBack(TCPSocket*,const dispatch_queue_t&);
+        void readEOFCallBack(TCPSocket*,const dispatch_queue_t&);
+        void writeEOFCallBack(TCPSocket*,const dispatch_queue_t&);
+        void errorOccuerred(TCPSocket*);
         
     private:
         TCPSocket* _socket;
-        ServerSocketObserver* _socketObserver;
-        ServerStreamObserver* _streamObserver;
-        PacketEncoder& _encoder;
-        PacketDecoder& _decoder;
+//        PacketEncoder& _encoder;
+//        PacketDecoder& _decoder;
     };
     
-    
-    
-    class ServerStreamObserver : public StreamEventObserver {
-    public:
-        ServerStreamObserver() {};
-        ~ServerStreamObserver(){};
-        
-        void hasBytesAvailable(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void hasSpaceAvailable(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void readEOF(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void writeEOF(TCPSocket* socket,const dispatch_queue_t& queue) override;
-        void errorOccurred(TCPSocket* socket) override;
-    };
-        
-    class ServerSocketObserver : public TCPServerEventObserver {
-    public:
-        ServerSocketObserver(){};
-        ~ServerSocketObserver(){};
-        void didAcceptNewClient(TCPSocket* server,TCPSocket* client) override;
-        void aClientDidDisconnected(const std::string& clientURL) override;
-    };
 }
 
 
