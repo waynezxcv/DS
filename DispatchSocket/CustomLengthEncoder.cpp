@@ -23,23 +23,4 @@
  THE SOFTWARE.
  */
 
-
-#ifndef Encoder_hpp
-#define Encoder_hpp
-
-#include <iostream>
-
-
-namespace DispatchSocket {
-    
-    struct PacketEncoder {
-        
-        PacketEncoder(){};
-        
-        virtual ~PacketEncoder(){};
-        virtual void encode(uint8_t* buffer,ssize_t bufferLen) = 0;
-    };
-    
-}
-
-#endif /* Encoder_hpp */
+#include "CustomLengthEncoder.hpp"

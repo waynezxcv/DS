@@ -32,18 +32,12 @@
 #include <dispatch/dispatch.h>
 
 #define LW_SOCK_NULL -1
-#define BUFFER_SIZE 32768
 
 namespace DispatchSocket {
-
     class Socket {
     public:
         Socket(){};
         virtual ~Socket(){};
-        
-        virtual ssize_t sockRead(void* buffer,const size_t& length) = 0;//读
-        virtual ssize_t sockWrite(void* buffer,const size_t& length) = 0;//写
-        
         //获取socket
         void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
         //获取对端socket

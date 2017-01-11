@@ -28,23 +28,29 @@
 
 using namespace DispatchSocket;
 const int kMaxConnectCount = 32;
+constexpr int kMaxBufferSize = 3 * 1024;
 
 #pragma mark - LifeCycle
 
 
-TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
+TCPSocket::TCPSocket(PacketEncoder* encoder,PacketDecoder* decoder) : _encoder(encoder) ,_decoder(decoder), _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
     _sockQueue = dispatch_queue_create("com.waynezxcv.DispatchSocket.sockQueue", DISPATCH_QUEUE_SERIAL);
     _semaphore = dispatch_semaphore_create(1);
+    _connectedSockets = std::vector<TCPSocket*>();
     _flags.socketOpened = false;
     _flags.acceptSourceOpend = false;
     _flags.readSourceOpened = false;
     _flags.writeSourceOpened = false;
-    _connectedSockets = std::vector<TCPSocket*>();
+    _flags.readSourceSuspend = false;
+    _flags.writeSourceSuspend = false;
+    _flags.hasReadEOF = false;
+    _flags.hasBytesAvailable = false;
+    _flags.hasWriteSpaceAvailable = false;
 }
+
 
 TCPSocket::~TCPSocket() {
     shutdown();
-    
     if (_flags.acceptSourceOpend) {
         dispatch_release(_accpetSource);
     }
@@ -56,7 +62,6 @@ TCPSocket::~TCPSocket() {
     if (_flags.readSourceOpened) {
         dispatch_release(_readSource);
     }
-    
     dispatch_release(_sockQueue);
     dispatch_release(_semaphore);
 }
@@ -133,24 +138,22 @@ bool TCPSocket::sockListen(const uint16_t &port) {
         return false;
     }
     
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     _flags.socketOpened = true;
-    dispatch_semaphore_signal(_semaphore);
     
-    //开始监听
-    uint16_t p;
     std::string host;
+    uint16_t p;
     sockGetSockName(_sockFd,host, p);
     if (startListenCallBack != nullptr) {
-        startListenCallBack(this,sockGetIfaddrs(),p);
+        //notitication....
+        startListenCallBack(sockGetIfaddrs(),p);
     }
     
     //accept source
     __unsafe_unretained TCPSocket* weakThis = this;
-    dispatch_source_t acceptSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,_sockFd,0,_sockQueue);
+    _accpetSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,_sockFd,0,_sockQueue);
     
     //event handler
-    dispatch_source_set_event_handler(acceptSource, ^{
+    dispatch_source_set_event_handler(_accpetSource, ^{
         TCPSocket* strongThis = weakThis;
         if (strongThis == nullptr) {
             return;
@@ -163,20 +166,28 @@ bool TCPSocket::sockListen(const uint16_t &port) {
         }
     });
     
-    dispatch_resume(acceptSource);
-    _accpetSource = acceptSource;
-    _flags.acceptSourceOpend = true;
+    dispatch_source_set_cancel_handler(_accpetSource, ^{
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        
+        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+        _flags.acceptSourceOpend = false;
+        dispatch_semaphore_signal(_semaphore);
+        dispatch_release(_accpetSource);
+    });
     
+    dispatch_resume(_accpetSource);
+    _flags.acceptSourceOpend = true;
     return (LW_SOCK_NULL != _sockFd);
 }
 
 #pragma mark - Accept
 
 void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
-    
     struct sockaddr* sockaddr = nullptr;
     socklen_t addrLen;
-    
     if (_addressFamily == AF_INET) {
         struct sockaddr_in addr_in;
         addrLen = sizeof(addr_in);
@@ -197,7 +208,7 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
         return;
     }
     
-    TCPSocket* connectSocket = new TCPSocket();
+    TCPSocket* connectSocket = new TCPSocket(_encoder,_decoder);
     connectSocket->setSockFd(connFd);
     connectSocket->setAddressFamily(_addressFamily);
     
@@ -205,94 +216,11 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
     dispatch_async(connectSocket->getSockQueue(), ^{
         connectSocket->setupReadAndWriteSource(connFd, url);
     });
-    
     _connectedSockets.push_back(connectSocket);
     
-    //有新的客户端连接通知
-    if (didAcceptNewClientCallBack != nullptr) {
-        didAcceptNewClientCallBack(this,connectSocket);
+    if (acceptANewClientCallback != nullptr) {
+        acceptANewClientCallback(url);
     }
-}
-
-void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url) {
-    __unsafe_unretained TCPSocket* weakThis = this;
-    /******************************* Read *************************************/
-    _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,connFd,0,_sockQueue);
-    dispatch_source_set_event_handler(_readSource, ^{
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        
-        size_t available = dispatch_source_get_data(_readSource);
-        if (available > 0) {
-            if (hasBytesAvailableCallBack != nullptr) {
-                hasBytesAvailableCallBack(strongThis,_sockQueue);
-            }
-        } else {
-            if (readEOFCallBack != nullptr) {
-                readEOFCallBack(strongThis,_sockQueue);
-            }
-        }
-    });
-    
-    dispatch_source_set_cancel_handler(_readSource, ^{
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        
-        if (errorOccuerred != nullptr) {
-            errorOccuerred(strongThis);
-        }
-        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-        _flags.readSourceOpened = false;
-        dispatch_semaphore_signal(_semaphore);
-        dispatch_release(_readSource);
-    });
-    
-    _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,connFd,0,_sockQueue);
-    dispatch_source_set_event_handler(_writeSource,^() {
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        size_t available = dispatch_source_get_data(_writeSource);
-        if (available > 0) {
-            if (hasSpaceAvailableCallBack != nullptr) {
-                hasSpaceAvailableCallBack(strongThis,_sockQueue);
-            }
-        } else {
-            if (writeEOFCallBack != nullptr) {
-                writeEOFCallBack(strongThis,_sockQueue);
-            }
-        }
-    });
-    
-    dispatch_source_set_cancel_handler(_writeSource,^{
-        TCPSocket* strongThis = weakThis;
-        if (strongThis == nullptr) {
-            return ;
-        }
-        
-        if (errorOccuerred != nullptr) {
-            errorOccuerred(strongThis);
-        }
-        
-        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-        _flags.writeSourceOpened = false;
-        dispatch_semaphore_signal(_semaphore);
-        dispatch_release(_writeSource);
-    });
-    
-    //start resource
-    dispatch_resume(_readSource);
-    dispatch_resume(_writeSource);
-    //set flags
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-    _flags.readSourceOpened = true;
-    _flags.writeSourceOpened = true;
-    dispatch_semaphore_signal(_semaphore);
 }
 
 #pragma mark - Connect
@@ -314,7 +242,6 @@ bool TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
 #endif
             return false;
         }
-        
         //Connect
         int result = connect(connFd,sockaddr, sockaddr -> sa_len);
         if (LW_SOCK_NULL == result) {
@@ -345,7 +272,6 @@ bool TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
             close(connFd);
             return LW_SOCK_NULL;
         }
-        
         return connFd;
     };
     
@@ -356,11 +282,7 @@ bool TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
         return false;
 #endif
     }
-    
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     _flags.socketOpened = true;
-    dispatch_semaphore_signal(_semaphore);
-    
     _sockFd = connFd;
     
     if (AddressHelper::isIPv4Addr(&sockaddr)) {
@@ -373,32 +295,16 @@ bool TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
         setupReadAndWriteSource(_sockFd, AddressHelper::getUrl(&sockaddr));
     });
     
-    //客户端连接到主机通知
-    if (didConnectedToHostCallBack != nullptr) {
-        didConnectedToHostCallBack(this,host,port);
+    //客户端连接到主机成功通知
+    if (didConnectedToHostSuccessCallBack != nullptr) {
+        didConnectedToHostSuccessCallBack(host,port);
     }
     return (LW_SOCK_NULL != _sockFd);
 }
 
 bool TCPSocket::sockDisconnect() {
     int flag = sockClose(_sockFd);
-    if ( flag > 0) {
-        //客户端断开通知
-        if (didDisconnectdCallBack) {
-            didDisconnectdCallBack();
-        }
-    }
     return (LW_SOCK_NULL != flag);
-}
-
-#pragma mark - I/O
-
-ssize_t TCPSocket::sockRead(void* buffer,const size_t& length) {
-    return read(getSockFd(), buffer, length);
-}
-
-ssize_t TCPSocket::sockWrite(void* buffer,const size_t& length) {
-    return write(getSockFd(), buffer, length);
 }
 
 #pragma mark - close
@@ -409,15 +315,155 @@ bool TCPSocket::sockClose(const int& fd) {
 
 void TCPSocket::shutdown() {
     sockClose(_sockFd);
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     _flags.socketOpened = false;
-    dispatch_semaphore_signal(_semaphore);
     
     for (auto i = _connectedSockets.begin(); i != _connectedSockets.end(); ++ i) {
         TCPSocket* tcpSocket = *i;
         delete tcpSocket;
     }
     _connectedSockets.clear();
+}
+
+#pragma mark - Read / Write
+
+
+void TCPSocket::setupReadAndWriteSource(const int& connFd,const std::string& url) {
+    __unsafe_unretained TCPSocket* weakThis = this;
+    /******************************* Read *************************************/
+    _readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ,connFd,0,_sockQueue);
+    //read source  事件处理
+    
+    dispatch_source_set_event_handler(_readSource, ^{
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        strongThis->_sockBytesAvaliabled = dispatch_source_get_data(strongThis->_readSource);
+        //readSource有字节可读
+        if (strongThis -> _sockBytesAvaliabled > 0) {
+            strongThis -> readDataHandler();
+        } else {//对方断开了连接
+            strongThis->readEOFHandler();
+        }
+    });
+    
+    //read source 取消处理
+    dispatch_source_set_cancel_handler(_readSource, ^{
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        dispatch_release(strongThis->_readSource);
+        strongThis->_flags.readSourceOpened = false;
+    });
+    
+    
+    /******************************* Write *************************************/
+    _writeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_WRITE,connFd,0,_sockQueue);
+    dispatch_source_set_event_handler(_writeSource,^() {
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        //有写空间可用
+        strongThis->_flags.hasWriteSpaceAvailable = true;
+        strongThis -> writeDataHanlder();
+    });
+    
+    dispatch_source_set_cancel_handler(_writeSource,^{
+        TCPSocket* strongThis = weakThis;
+        if (strongThis == nullptr) {
+            return ;
+        }
+        dispatch_release(strongThis->_writeSource);
+        strongThis->_flags.writeSourceOpened = false;
+    });
+    
+    /***********************/
+    //source打开标志符，用于析构函数中的release判断
+    _flags.readSourceOpened = true;
+    _flags.writeSourceOpened = true;
+    /***********************/
+    
+    //这里打开read source，write source需要时才手动打开
+    _sockBytesAvaliabled = 0;//可读字节置0
+    resumeReadSource();
+    
+    _flags.hasBytesAvailable = true;//有字节可用
+    _flags.writeSourceSuspend = true;//写暂停
+}
+
+void TCPSocket::readDataHandler() {
+    uint8_t* buffer = (uint8_t *)malloc(kMaxBufferSize);
+    ssize_t results = read(_sockFd, buffer, kMaxBufferSize);
+    
+    if (results < 0) {
+        printf("error\n");
+    } else if(results == 0) {
+        readEOFHandler();
+        _sockBytesAvaliabled = 0;
+    } else {
+        ssize_t len = results;
+        _decoder->decode(buffer,len);
+    }
+    free(buffer);
+}
+
+void TCPSocket::writeData(uint8_t* buffer,ssize_t len) {
+    resumeWriteSource();
+    
+    
+}
+
+void TCPSocket::writeDataHanlder() {
+    uint8_t* buffer = (uint8_t *)malloc(kMaxBufferSize);
+    ssize_t results = write(_sockFd, buffer, kMaxBufferSize);
+    if (results < 0) {
+        printf("error\n");
+    } else if(results == 0) {
+        readEOFHandler();
+        _sockBytesAvaliabled = 0;
+    } else {
+        ssize_t len = results;
+        _encoder->encode(buffer,len);
+    }
+}
+
+//对方断开了连接
+void TCPSocket::readEOFHandler() {
+    _flags.hasReadEOF = true;
+    suspendReadSource();
+    printf("do read eof\n");
+}
+
+void TCPSocket::suspendReadSource() {
+    if (_flags.readSourceSuspend) {
+        return;
+    }
+    dispatch_suspend(_readSource);
+    _flags.readSourceSuspend = true;
+    printf("suspend read source\n");
+}
+
+void TCPSocket::suspendWriteSource() {
+    if (_flags.writeSourceSuspend) {
+        return;
+    }
+    dispatch_suspend(_writeSource);
+    _flags.writeSourceSuspend = true;
+    printf("suspend write source\n");
+}
+
+void TCPSocket::resumeReadSource() {
+    dispatch_resume(_readSource);
+    _flags.readSourceSuspend = false;
+    printf("resume read source\n");
+}
+
+void TCPSocket::resumeWriteSource() {
+    dispatch_resume(_writeSource);
+    _flags.writeSourceSuspend = false;
+    printf("resume write source\n");
 }
 
 #pragma mark - Setter & Getter

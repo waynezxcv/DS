@@ -24,32 +24,26 @@
  */
 
 
-#ifndef TCPClient_hpp
-#define TCPClient_hpp
+#ifndef CustomLengthEncoder_hpp
+#define CustomLengthEncoder_hpp
 
-#include "TCPSocket.hpp"
 #include "PacketEncoder.hpp"
-#include "PacketDecoder.hpp"
 
 
 namespace DispatchSocket {
-    class TCPClient {
+    
+    class CustomLengthEncoder : public PacketEncoder {
+        
     public:
-        TCPClient(PacketEncoder& encoder, PacketDecoder& decoder);
-        ~TCPClient();
-        TCPClient(const TCPClient&) = delete;
-        TCPClient& operator = (const TCPClient&) = delete;
         
-        void clientConnect(const std::string& host,const int& port);
-        void clientDisconnect();
+        CustomLengthEncoder(){};
+        ~CustomLengthEncoder(){};
+        void encode(uint8_t* buffer,ssize_t bufferLen) {
+            printf("encode .. len  %zu \n",bufferLen);
+            
+        };
         
-    private:
-        DispatchSocket::TCPSocket* _socket;
-        PacketEncoder& _encoder;
-        PacketDecoder& _decoder;
     };
 }
 
-
-
-#endif /* TCPClient_hpp */
+#endif /* CustomLengthEncoder_hpp */

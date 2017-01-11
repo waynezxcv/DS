@@ -24,47 +24,24 @@
  */
 
 
-#ifndef TCPServer_hpp
-#define TCPServer_hpp
+#ifndef CustomLengthDecoder_hpp
+#define CustomLengthDecoder_hpp
 
-#include "TCPSocket.hpp"
-#include "PacketEncoder.hpp"
 #include "PacketDecoder.hpp"
-
 
 namespace DispatchSocket {
     
-    
-    class TCPServer {
+    class CustomLengthDecoder : public PacketDecoder {
+        
     public:
-        TCPServer();
-//        TCPServer(PacketEncoder& encoder, PacketDecoder& decoder);
-        ~TCPServer();
-        TCPServer(const TCPServer&) = delete;
-        TCPServer& operator = (const TCPServer&) = delete;
+        CustomLengthDecoder(){};
+        ~CustomLengthDecoder(){};
+        void decode(uint8_t* buffer,ssize_t bufferLen) override {};
         
-        void serverListen();
-        void serverListen(const uint16_t& port);
-        void serverShutdown();
-        unsigned currentConnectsCount();
-        
-        
-        void setupCallBack();
-        void startListenCallBack(TCPSocket*,const std::string&,const uint16_t&);
-        void didAcceptNewClientCallBack(TCPSocket*,TCPSocket*);
-        void hasBytesAvailableCallBack(TCPSocket*,const dispatch_queue_t&);
-        void hasSpaceAvailableCallBack(TCPSocket*,const dispatch_queue_t&);
-        void readEOFCallBack(TCPSocket*,const dispatch_queue_t&);
-        void writeEOFCallBack(TCPSocket*,const dispatch_queue_t&);
-        void errorOccuerred(TCPSocket*);
-        
-    private:
-        TCPSocket* _socket;
-//        PacketEncoder& _encoder;
-//        PacketDecoder& _decoder;
     };
     
 }
 
 
-#endif /* TCPServer_hpp */
+
+#endif /* CustomLengthDecoder_hpp */

@@ -24,25 +24,9 @@
  */
 
 
-#include "TCPClient.hpp"
+#ifndef DelimiterDecoder_hpp
+#define DelimiterDecoder_hpp
 
-using namespace DispatchSocket;
+#include <stdio.h>
 
-TCPClient::TCPClient(PacketEncoder& encoder, PacketDecoder& decoder) : _encoder(encoder),_decoder(decoder) {
-    _socket = new DispatchSocket::TCPSocket();
-}
-
-
-TCPClient::~TCPClient() {
-    delete _socket;
-}
-
-void TCPClient::clientConnect(const std::string& host,const int& port) {
-    _socket->sockConnect(host, port);
-}
-
-
-void TCPClient::clientDisconnect() {
-    _socket->sockDisconnect();
-}
-
+#endif /* DelimiterDecoder_hpp */

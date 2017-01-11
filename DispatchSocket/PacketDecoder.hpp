@@ -28,15 +28,16 @@
 #ifndef Decoder_hpp
 #define Decoder_hpp
 
-#include <stdio.h>
-#include "DataPacket.hpp"
-
-
+#include <iostream>
 
 namespace DispatchSocket {
     
-    class PacketDecoder {
-        virtual void encode(const DataPacket& packet) = 0;
+    struct PacketDecoder {
+        
+        PacketDecoder(){};
+        virtual ~PacketDecoder(){};
+        
+        virtual void decode(uint8_t* buffer,ssize_t bufferLen) = 0;
     };
     
 }

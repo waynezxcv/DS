@@ -1,13 +1,20 @@
 
 #import "AppDelegate.h"
-#import "DispatchSocket.h"
+#import "TCPSocket.hpp"
+#import "CustomLengthEncoder.hpp"
+#import "CustomLengthDecoder.hpp"
+
 
 
 
 using namespace DispatchSocket;
 
 @interface AppDelegate (){
-    TCPServer* _server;
+    
+    TCPSocket* _server;
+    CustomLengthEncoder* _encoder;
+    CustomLengthDecoder* _decoder;
+    
 }
 
 
@@ -15,18 +22,19 @@ using namespace DispatchSocket;
 
 @end
 
-
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    _server = new TCPServer();
-    _server->serverListen(58953);
-    
+    _encoder = new CustomLengthEncoder();
+    _decoder = new CustomLengthDecoder();
+    _server = new TCPSocket(_encoder,_decoder);
+    _server->sockListen(58953);
 }
 
-
 - (void)dealloc {
-
+    delete _server;
+    delete _encoder;
+    delete _decoder;
 }
 
 

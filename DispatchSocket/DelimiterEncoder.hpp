@@ -24,21 +24,9 @@
  */
 
 
+#ifndef DelimiterEncoder_hpp
+#define DelimiterEncoder_hpp
 
-#ifndef DataPacket_hpp
-#define DataPacket_hpp
+#include <stdio.h>
 
-#include <iostream>
-
-
-namespace DispatchSocket {
-    
-    struct DataPacket {
-        DataPacket();
-        ~DataPacket(){};
-        int packetId;
-        uint8_t* object;
-    };
-}
-
-#endif /* DataPacket_hpp */
+#endif /* DelimiterEncoder_hpp */

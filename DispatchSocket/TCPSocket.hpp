@@ -27,71 +27,79 @@
 #define TCPSocket_hpp
 
 #include "Socket.hpp"
+#include "PacketEncoder.hpp"
+#include "PacketDecoder.hpp"
 #include <vector>
 
 
 typedef struct {
+    
     bool socketOpened : 1;
     bool acceptSourceOpend : 1;
     bool readSourceOpened  : 1;
     bool writeSourceOpened : 1;
+    
+    bool readSourceSuspend : 1;
+    bool writeSourceSuspend : 1;
+    bool hasReadEOF : 1;
+    
+    bool hasBytesAvailable : 1;
+    bool hasWriteSpaceAvailable : 1;
+    
 } SocketFlags;
 
-
 namespace DispatchSocket {
-    
     class TCPSocket : public Socket {
     public:
-        
-        TCPSocket();
-        ~TCPSocket();
+        explicit TCPSocket(PacketEncoder* encoder,PacketDecoder* decoder);
+        virtual ~TCPSocket();
         TCPSocket(const TCPSocket&) = delete;
         TCPSocket& operator = (const TCPSocket&) = delete;
         
         bool sockListen();//开始监听,socket状态转成被动型
         bool sockListen(const uint16_t& port);//在指定端口号监听
-        void shutdown();//关闭服务器,结束listen
-        unsigned currentConnectedSocketsCount() const;//获取当前连接的客户端数量
-        
         bool sockConnect(const std::string& host,const uint16_t& port);//通过主机地址和端口号链接
         bool sockDisconnect();//断开连接
+        void shutdown();//关闭服务器,结束listen
+        unsigned currentConnectedSocketsCount() const;//获取当前连接的客户端数量
+        void writeData(uint8_t* buffer,ssize_t len);//写
         
-        ssize_t sockRead(void* buffer,const size_t& length) override;//读
-        ssize_t sockWrite(void* buffer,const size_t& length) override;//写
+        std::function<void(const std::string&,const uint16_t&)> startListenCallBack;
+        std::function<void(const std::string&)> acceptANewClientCallback;
+        std::function<void(const std::string&,const uint16_t&)> didConnectedToHostSuccessCallBack;
         
-        void setSockFd (const int& fd);//设置socket文件描述符
-        void setAddressFamily(const int& af);//获取socket地址协议族类型
+    protected:
+        void suspendReadSource();//挂起 read source
+        void suspendWriteSource();//挂起 write source
+        void resumeReadSource();//启动 read source
+        void resumeWriteSource();//启动 write Source
         int getSockFd() const;//获取socket文件描述符
-        int getSockAddressFamily() const;//设置socket地址协议族类型
-        dispatch_queue_t getSockQueue() const;//获取socket连接的队列
-        
-        //回调函数
-        std::function<void(TCPSocket*,const dispatch_queue_t&)> hasBytesAvailableCallBack;
-        std::function<void(TCPSocket*,const dispatch_queue_t&)> hasSpaceAvailableCallBack;
-        std::function<void(TCPSocket*,const dispatch_queue_t&)> readEOFCallBack;
-        std::function<void(TCPSocket*,const dispatch_queue_t&)> writeEOFCallBack;
-        std::function<void(TCPSocket*)> errorOccuerred;
-        
-        std::function<void(TCPSocket*,const std::string&,const uint16_t&)> startListenCallBack;
-        std::function<void(TCPSocket*,TCPSocket*)> didAcceptNewClientCallBack;
-        std::function<void(TCPSocket*,const std::string&,const uint16_t&)> didConnectedToHostCallBack;
-        std::function<void(void)> didDisconnectdCallBack;
+        std::vector<TCPSocket *> _connectedSockets;
         
     private:
+        SocketFlags _flags;
         int _sockFd;//socket文件描述符
         int _addressFamily;//地址协议族
-        std::vector<TCPSocket *> _connectedSockets;//如果是服务端，存放已经连接的客户端Socket
-        
         dispatch_source_t _accpetSource;//接收事件的dipatch source
         dispatch_source_t _readSource;//读事件的dipatch source
         dispatch_source_t _writeSource;//写事件的dipatch source
         dispatch_queue_t _sockQueue;//socket连接的队列，一个串行队列
         dispatch_semaphore_t _semaphore;//信号量
-        SocketFlags _flags;
+        unsigned long _sockBytesAvaliabled;
         
         bool sockClose(const int& fd);//通过socket文件描述符关闭socket
         void acceptHandler(const int& fd,const std::string& url);//接收事件处理
         void setupReadAndWriteSource(const int& fd,const std::string& url);//设置读写事件
+        void setSockFd (const int& fd);//设置socket文件描述符
+        void setAddressFamily(const int& af);//获取socket地址协议族类型
+        int getSockAddressFamily() const;//设置socket地址协议族类型
+        dispatch_queue_t getSockQueue() const;//获取socket连接的队列
+        
+        void readDataHandler();//读
+        void writeDataHanlder();//写
+        void readEOFHandler();//对方断开了连接
+        PacketEncoder* _encoder;
+        PacketDecoder* _decoder;
     };
 }
 
