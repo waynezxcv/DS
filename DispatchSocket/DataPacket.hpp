@@ -24,9 +24,31 @@
  */
 
 
-#ifndef DelimiterDecoder_hpp
-#define DelimiterDecoder_hpp
+#ifndef DataPacket_hpp
+#define DataPacket_hpp
 
-#include <stdio.h>
+#include "Data.hpp"
 
-#endif /* DelimiterDecoder_hpp */
+
+namespace DispatchSocket {
+    
+    struct WritePacket {
+        unsigned long length;
+        int type;
+        uint8_t* buffer;
+        
+        explicit WritePacket(const Data& data,const int& type);
+        ~WritePacket();
+    };
+    
+    struct PacketHeader {
+        unsigned long length;
+        int type;
+        
+        explicit PacketHeader(const Data& data);
+        ~PacketHeader();
+    };
+    
+}
+
+#endif /* DataPacket_hpp */

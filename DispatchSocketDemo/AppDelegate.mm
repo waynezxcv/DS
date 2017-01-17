@@ -1,42 +1,57 @@
 
 #import "AppDelegate.h"
-#import "TCPSocket.hpp"
-#import "CustomLengthEncoder.hpp"
-#import "CustomLengthDecoder.hpp"
+#import "DSObjcInterface.h"
+#import "Data.hpp"
 
-
-
-
-using namespace DispatchSocket;
-
-@interface AppDelegate (){
-    
-    TCPSocket* _server;
-    CustomLengthEncoder* _encoder;
-    CustomLengthDecoder* _decoder;
-    
-}
+@interface AppDelegate ()<DSObjcInterfaceDelegate>
 
 
 @property (weak) IBOutlet NSWindow *window;
+@property (nonatomic,strong) DispatchSocketObjc* socket;
 
 @end
 
 @implementation AppDelegate
 
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    _encoder = new CustomLengthEncoder();
-    _decoder = new CustomLengthDecoder();
-    _server = new TCPSocket(_encoder,_decoder);
-    _server->sockListen(58953);
+
+    self.socket = [[DispatchSocketObjc alloc] initWithDelegate:self];
+    [self.socket listenOnPort:59269];
+
+
+
+
 }
 
-- (void)dealloc {
-    delete _server;
-    delete _encoder;
-    delete _decoder;
+
+
+
+
+
+
+
+
+
+
+- (void)didStartListenWithIP:(NSString *)ip port:(NSInteger)port {
+    NSLog(@"did start listen with ip : %@ port: %ld",ip,port);
 }
 
+
+- (void)didAcceptANewClient:(NSString *)clientURL {
+    NSLog(@"server did accept a new client : %@",clientURL);
+}
+
+
+- (void)didConnectedToHost:(NSString *)host port:(NSInteger)port {
+    NSLog(@"client did connected to host : %@ port : %ld",host,port);
+}
+
+
+- (void)didReceivedData:(NSData *)data type:(NSInteger)type {
+    NSLog(@"did received data ! type :%ld .. data:%@",(long)type,data);
+}
 
 
 @end

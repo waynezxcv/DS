@@ -35,14 +35,15 @@
 
 namespace DispatchSocket {
     class Socket {
+        
     public:
         Socket(){};
         virtual ~Socket(){};
-        //获取socket
+
         void sockGetSockName(const int& fd, std::string &ip,uint16_t &port) const;
-        //获取对端socket
+
         void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
-        //获取局域网IP
+
         std::string sockGetIfaddrs() const;
     };
 }

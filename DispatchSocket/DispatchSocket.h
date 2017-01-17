@@ -26,7 +26,7 @@
 #ifndef DispatchSocket_h
 #define DispatchSocket_h
 
-
+#include "DSObjcInterface.h"
 
 
 #endif /* DispatchSocket_h */

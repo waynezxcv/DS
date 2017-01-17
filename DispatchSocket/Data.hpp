@@ -24,9 +24,39 @@
  */
 
 
-#ifndef DelimiterEncoder_hpp
-#define DelimiterEncoder_hpp
 
-#include <stdio.h>
+#ifndef Data_hpp
+#define Data_hpp
 
-#endif /* DelimiterEncoder_hpp */
+#include <iostream>
+#include <vector>
+
+
+namespace DispatchSocket {
+    class Data {
+    public:
+        Data();
+        Data(uint8_t* buffer,const unsigned long& len);
+        Data(const Data& rhs);
+        Data& operator = (const Data& rhs);
+        ~Data();
+        
+        void writeInt(const int& v);
+        void writeUnsignedlong(const unsigned long& v);
+        
+        void appendBytes(uint8_t* buffer,const unsigned long& len);
+        void appendData(const Data& data);
+        Data subData(const unsigned long& location,const unsigned long& len);
+
+        void empty();
+        
+        std::vector<uint8_t> bytes () const;
+        unsigned long length () const;
+        
+    private:
+        std::vector<uint8_t> _bytes;
+        unsigned long _length;
+    };
+}
+
+#endif /* Data_hpp */

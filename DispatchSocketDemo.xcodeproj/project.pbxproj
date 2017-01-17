@@ -13,15 +13,11 @@
 		0115C0271E2109D600021B1A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0115C0251E2109D600021B1A /* MainMenu.xib */; };
 		0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C02F1E210A1400021B1A /* AddressHelper.cpp */; };
 		0115C0401E210A1400021B1A /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0351E210A1400021B1A /* Socket.cpp */; };
-		0152C90E1E252E9A00F41CBE /* DSObjecInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0152C90D1E252E9A00F41CBE /* DSObjecInterface.mm */; };
-		018B9DFD1E2672BE007039C9 /* CustomLengthDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018B9DFB1E2672BE007039C9 /* CustomLengthDecoder.cpp */; };
-		018B9E001E2672D5007039C9 /* CustomLengthEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018B9DFE1E2672D5007039C9 /* CustomLengthEncoder.cpp */; };
-		018B9E051E267315007039C9 /* DelimiterEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018B9E031E267315007039C9 /* DelimiterEncoder.cpp */; };
-		018B9E081E267321007039C9 /* DelimiterDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018B9E061E267321007039C9 /* DelimiterDecoder.cpp */; };
+		0152C90E1E252E9A00F41CBE /* DSObjcInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */; };
 		01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40611E226E90005B54EF /* TCPSocket.cpp */; };
 		01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40671E2275DC005B54EF /* UDPSocket.cpp */; };
-		B07642241E24E37C00B9936B /* PacketEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07642221E24E37C00B9936B /* PacketEncoder.cpp */; };
-		B07642271E24EAF800B9936B /* PacketDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07642251E24EAF800B9936B /* PacketDecoder.cpp */; };
+		B07141241E2CBA0900413C15 /* DataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07141221E2CBA0900413C15 /* DataPacket.cpp */; };
+		B0D919B61E2C6B5C00DF2FD2 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D919B41E2C6B5C00DF2FD2 /* Data.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,24 +33,16 @@
 		0115C0351E210A1400021B1A /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = DispatchSocket/Socket.cpp; sourceTree = "<group>"; };
 		0115C0361E210A1400021B1A /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = DispatchSocket/Socket.hpp; sourceTree = "<group>"; };
 		0152C90B1E252C2200F41CBE /* DispatchSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
-		0152C90C1E252E9A00F41CBE /* DSObjecInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSObjecInterface.h; path = DispatchSocket/DSObjecInterface.h; sourceTree = "<group>"; };
-		0152C90D1E252E9A00F41CBE /* DSObjecInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DSObjecInterface.mm; path = DispatchSocket/DSObjecInterface.mm; sourceTree = "<group>"; };
-		018B9DFB1E2672BE007039C9 /* CustomLengthDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CustomLengthDecoder.cpp; path = DispatchSocket/CustomLengthDecoder.cpp; sourceTree = "<group>"; };
-		018B9DFC1E2672BE007039C9 /* CustomLengthDecoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CustomLengthDecoder.hpp; path = DispatchSocket/CustomLengthDecoder.hpp; sourceTree = "<group>"; };
-		018B9DFE1E2672D5007039C9 /* CustomLengthEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CustomLengthEncoder.cpp; path = DispatchSocket/CustomLengthEncoder.cpp; sourceTree = "<group>"; };
-		018B9DFF1E2672D5007039C9 /* CustomLengthEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CustomLengthEncoder.hpp; path = DispatchSocket/CustomLengthEncoder.hpp; sourceTree = "<group>"; };
-		018B9E031E267315007039C9 /* DelimiterEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DelimiterEncoder.cpp; path = DispatchSocket/DelimiterEncoder.cpp; sourceTree = "<group>"; };
-		018B9E041E267315007039C9 /* DelimiterEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DelimiterEncoder.hpp; path = DispatchSocket/DelimiterEncoder.hpp; sourceTree = "<group>"; };
-		018B9E061E267321007039C9 /* DelimiterDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DelimiterDecoder.cpp; path = DispatchSocket/DelimiterDecoder.cpp; sourceTree = "<group>"; };
-		018B9E071E267321007039C9 /* DelimiterDecoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DelimiterDecoder.hpp; path = DispatchSocket/DelimiterDecoder.hpp; sourceTree = "<group>"; };
+		0152C90C1E252E9A00F41CBE /* DSObjcInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSObjcInterface.h; path = DispatchSocket/DSObjcInterface.h; sourceTree = "<group>"; };
+		0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DSObjcInterface.mm; path = DispatchSocket/DSObjcInterface.mm; sourceTree = "<group>"; };
 		01BB40611E226E90005B54EF /* TCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPSocket.cpp; path = DispatchSocket/TCPSocket.cpp; sourceTree = "<group>"; };
 		01BB40621E226E90005B54EF /* TCPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPSocket.hpp; path = DispatchSocket/TCPSocket.hpp; sourceTree = "<group>"; };
 		01BB40671E2275DC005B54EF /* UDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDPSocket.cpp; path = DispatchSocket/UDPSocket.cpp; sourceTree = "<group>"; };
 		01BB40681E2275DC005B54EF /* UDPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = UDPSocket.hpp; path = DispatchSocket/UDPSocket.hpp; sourceTree = "<group>"; };
-		B07642221E24E37C00B9936B /* PacketEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PacketEncoder.cpp; path = DispatchSocket/PacketEncoder.cpp; sourceTree = SOURCE_ROOT; };
-		B07642231E24E37C00B9936B /* PacketEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PacketEncoder.hpp; path = DispatchSocket/PacketEncoder.hpp; sourceTree = SOURCE_ROOT; };
-		B07642251E24EAF800B9936B /* PacketDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PacketDecoder.cpp; path = DispatchSocket/PacketDecoder.cpp; sourceTree = "<group>"; };
-		B07642261E24EAF800B9936B /* PacketDecoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PacketDecoder.hpp; path = DispatchSocket/PacketDecoder.hpp; sourceTree = "<group>"; };
+		B07141221E2CBA0900413C15 /* DataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataPacket.cpp; path = DispatchSocket/DataPacket.cpp; sourceTree = "<group>"; };
+		B07141231E2CBA0900413C15 /* DataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DataPacket.hpp; path = DispatchSocket/DataPacket.hpp; sourceTree = "<group>"; };
+		B0D919B41E2C6B5C00DF2FD2 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data.cpp; path = DispatchSocket/Data.cpp; sourceTree = "<group>"; };
+		B0D919B51E2C6B5C00DF2FD2 /* Data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Data.hpp; path = DispatchSocket/Data.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				0152C90B1E252C2200F41CBE /* DispatchSocket.h */,
-				0152C90C1E252E9A00F41CBE /* DSObjecInterface.h */,
-				0152C90D1E252E9A00F41CBE /* DSObjecInterface.mm */,
+				0152C90C1E252E9A00F41CBE /* DSObjcInterface.h */,
+				0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */,
 				0115C0881E211D1E00021B1A /* Core */,
 			);
 			name = DispatchSocket;
@@ -122,8 +110,6 @@
 			children = (
 				0152C90F1E252F4B00F41CBE /* Socket */,
 				0152C9101E252F6200F41CBE /* Encode&Decoder */,
-				018B9E011E2672E5007039C9 /* CustomLengthSocket */,
-				018B9E021E2672EE007039C9 /* DelimiterSocket */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -146,34 +132,12 @@
 		0152C9101E252F6200F41CBE /* Encode&Decoder */ = {
 			isa = PBXGroup;
 			children = (
-				B07642221E24E37C00B9936B /* PacketEncoder.cpp */,
-				B07642231E24E37C00B9936B /* PacketEncoder.hpp */,
-				B07642251E24EAF800B9936B /* PacketDecoder.cpp */,
-				B07642261E24EAF800B9936B /* PacketDecoder.hpp */,
+				B0D919B41E2C6B5C00DF2FD2 /* Data.cpp */,
+				B0D919B51E2C6B5C00DF2FD2 /* Data.hpp */,
+				B07141221E2CBA0900413C15 /* DataPacket.cpp */,
+				B07141231E2CBA0900413C15 /* DataPacket.hpp */,
 			);
 			name = "Encode&Decoder";
-			sourceTree = "<group>";
-		};
-		018B9E011E2672E5007039C9 /* CustomLengthSocket */ = {
-			isa = PBXGroup;
-			children = (
-				018B9DFE1E2672D5007039C9 /* CustomLengthEncoder.cpp */,
-				018B9DFF1E2672D5007039C9 /* CustomLengthEncoder.hpp */,
-				018B9DFB1E2672BE007039C9 /* CustomLengthDecoder.cpp */,
-				018B9DFC1E2672BE007039C9 /* CustomLengthDecoder.hpp */,
-			);
-			name = CustomLengthSocket;
-			sourceTree = "<group>";
-		};
-		018B9E021E2672EE007039C9 /* DelimiterSocket */ = {
-			isa = PBXGroup;
-			children = (
-				018B9E031E267315007039C9 /* DelimiterEncoder.cpp */,
-				018B9E041E267315007039C9 /* DelimiterEncoder.hpp */,
-				018B9E061E267321007039C9 /* DelimiterDecoder.cpp */,
-				018B9E071E267321007039C9 /* DelimiterDecoder.hpp */,
-			);
-			name = DelimiterSocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,19 +211,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0152C90E1E252E9A00F41CBE /* DSObjecInterface.mm in Sources */,
+				B07141241E2CBA0900413C15 /* DataPacket.cpp in Sources */,
+				0152C90E1E252E9A00F41CBE /* DSObjcInterface.mm in Sources */,
 				01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */,
 				0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */,
+				B0D919B61E2C6B5C00DF2FD2 /* Data.cpp in Sources */,
 				0115C0221E2109D600021B1A /* main.m in Sources */,
 				01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */,
-				B07642241E24E37C00B9936B /* PacketEncoder.cpp in Sources */,
-				018B9DFD1E2672BE007039C9 /* CustomLengthDecoder.cpp in Sources */,
 				0115C0401E210A1400021B1A /* Socket.cpp in Sources */,
 				0115C01F1E2109D600021B1A /* AppDelegate.mm in Sources */,
-				018B9E081E267321007039C9 /* DelimiterDecoder.cpp in Sources */,
-				018B9E001E2672D5007039C9 /* CustomLengthEncoder.cpp in Sources */,
-				B07642271E24EAF800B9936B /* PacketDecoder.cpp in Sources */,
-				018B9E051E267315007039C9 /* DelimiterEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

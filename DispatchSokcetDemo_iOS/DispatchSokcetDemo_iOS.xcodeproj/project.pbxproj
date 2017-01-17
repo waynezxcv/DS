@@ -1,0 +1,394 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01DB501D1E2BB5DA002A9091 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DB501C1E2BB5DA002A9091 /* main.m */; };
+		01DB50201E2BB5DA002A9091 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DB501F1E2BB5DA002A9091 /* AppDelegate.m */; };
+		01DB50231E2BB5DA002A9091 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50221E2BB5DA002A9091 /* ViewController.mm */; };
+		01DB50261E2BB5DA002A9091 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50241E2BB5DA002A9091 /* Main.storyboard */; };
+		01DB50281E2BB5DA002A9091 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50271E2BB5DA002A9091 /* Assets.xcassets */; };
+		01DB502B1E2BB5DA002A9091 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */; };
+		01DB50461E2BB632002A9091 /* AddressHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50331E2BB632002A9091 /* AddressHelper.cpp */; };
+		01DB50491E2BB632002A9091 /* DSObjcInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */; };
+		01DB504B1E2BB632002A9091 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB503E1E2BB632002A9091 /* Socket.cpp */; };
+		01DB504C1E2BB632002A9091 /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50401E2BB632002A9091 /* TCPSocket.cpp */; };
+		01DB504D1E2BB632002A9091 /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50421E2BB632002A9091 /* UDPSocket.cpp */; };
+		01DB50561E2D743A002A9091 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50521E2D743A002A9091 /* Data.cpp */; };
+		01DB50571E2D743A002A9091 /* DataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50541E2D743A002A9091 /* DataPacket.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01DB50181E2BB5DA002A9091 /* DispatchSokcetDemo_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DispatchSokcetDemo_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		01DB501C1E2BB5DA002A9091 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		01DB501E1E2BB5DA002A9091 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		01DB501F1E2BB5DA002A9091 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		01DB50211E2BB5DA002A9091 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		01DB50221E2BB5DA002A9091 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		01DB50251E2BB5DA002A9091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		01DB50271E2BB5DA002A9091 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		01DB502A1E2BB5DA002A9091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		01DB502C1E2BB5DA002A9091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		01DB50331E2BB632002A9091 /* AddressHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddressHelper.cpp; path = ../DispatchSocket/AddressHelper.cpp; sourceTree = "<group>"; };
+		01DB50341E2BB632002A9091 /* AddressHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddressHelper.hpp; path = ../DispatchSocket/AddressHelper.hpp; sourceTree = "<group>"; };
+		01DB50391E2BB632002A9091 /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = ../DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
+		01DB503A1E2BB632002A9091 /* DSObjcInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSObjcInterface.h; path = ../DispatchSocket/DSObjcInterface.h; sourceTree = "<group>"; };
+		01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DSObjcInterface.mm; path = ../DispatchSocket/DSObjcInterface.mm; sourceTree = "<group>"; };
+		01DB503E1E2BB632002A9091 /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = ../DispatchSocket/Socket.cpp; sourceTree = "<group>"; };
+		01DB503F1E2BB632002A9091 /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = ../DispatchSocket/Socket.hpp; sourceTree = "<group>"; };
+		01DB50401E2BB632002A9091 /* TCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPSocket.cpp; path = ../DispatchSocket/TCPSocket.cpp; sourceTree = "<group>"; };
+		01DB50411E2BB632002A9091 /* TCPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPSocket.hpp; path = ../DispatchSocket/TCPSocket.hpp; sourceTree = "<group>"; };
+		01DB50421E2BB632002A9091 /* UDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDPSocket.cpp; path = ../DispatchSocket/UDPSocket.cpp; sourceTree = "<group>"; };
+		01DB50431E2BB632002A9091 /* UDPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = UDPSocket.hpp; path = ../DispatchSocket/UDPSocket.hpp; sourceTree = "<group>"; };
+		01DB50521E2D743A002A9091 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data.cpp; path = ../DispatchSocket/Data.cpp; sourceTree = "<group>"; };
+		01DB50531E2D743A002A9091 /* Data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Data.hpp; path = ../DispatchSocket/Data.hpp; sourceTree = "<group>"; };
+		01DB50541E2D743A002A9091 /* DataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataPacket.cpp; path = ../DispatchSocket/DataPacket.cpp; sourceTree = "<group>"; };
+		01DB50551E2D743A002A9091 /* DataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DataPacket.hpp; path = ../DispatchSocket/DataPacket.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		01DB50151E2BB5DA002A9091 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01DB500F1E2BB5DA002A9091 = {
+			isa = PBXGroup;
+			children = (
+				01DB50321E2BB61B002A9091 /* DispatchSocket */,
+				01DB501A1E2BB5DA002A9091 /* DispatchSokcetDemo_iOS */,
+				01DB50191E2BB5DA002A9091 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		01DB50191E2BB5DA002A9091 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01DB50181E2BB5DA002A9091 /* DispatchSokcetDemo_iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		01DB501A1E2BB5DA002A9091 /* DispatchSokcetDemo_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				01DB501E1E2BB5DA002A9091 /* AppDelegate.h */,
+				01DB501F1E2BB5DA002A9091 /* AppDelegate.m */,
+				01DB50211E2BB5DA002A9091 /* ViewController.h */,
+				01DB50221E2BB5DA002A9091 /* ViewController.mm */,
+				01DB50241E2BB5DA002A9091 /* Main.storyboard */,
+				01DB50271E2BB5DA002A9091 /* Assets.xcassets */,
+				01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */,
+				01DB502C1E2BB5DA002A9091 /* Info.plist */,
+				01DB501B1E2BB5DA002A9091 /* Supporting Files */,
+			);
+			path = DispatchSokcetDemo_iOS;
+			sourceTree = "<group>";
+		};
+		01DB501B1E2BB5DA002A9091 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				01DB501C1E2BB5DA002A9091 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		01DB50321E2BB61B002A9091 /* DispatchSocket */ = {
+			isa = PBXGroup;
+			children = (
+				01DB50391E2BB632002A9091 /* DispatchSocket.h */,
+				01DB503A1E2BB632002A9091 /* DSObjcInterface.h */,
+				01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */,
+				01DB504F1E2BB98F002A9091 /* Core */,
+			);
+			name = DispatchSocket;
+			sourceTree = "<group>";
+		};
+		01DB504F1E2BB98F002A9091 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				01DB50501E2BB9A4002A9091 /* Socket */,
+				01DB50511E2BB9AC002A9091 /* Encode&Decode */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		01DB50501E2BB9A4002A9091 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				01DB50401E2BB632002A9091 /* TCPSocket.cpp */,
+				01DB50411E2BB632002A9091 /* TCPSocket.hpp */,
+				01DB50421E2BB632002A9091 /* UDPSocket.cpp */,
+				01DB50431E2BB632002A9091 /* UDPSocket.hpp */,
+				01DB503E1E2BB632002A9091 /* Socket.cpp */,
+				01DB503F1E2BB632002A9091 /* Socket.hpp */,
+				01DB50331E2BB632002A9091 /* AddressHelper.cpp */,
+				01DB50341E2BB632002A9091 /* AddressHelper.hpp */,
+			);
+			name = Socket;
+			sourceTree = "<group>";
+		};
+		01DB50511E2BB9AC002A9091 /* Encode&Decode */ = {
+			isa = PBXGroup;
+			children = (
+				01DB50521E2D743A002A9091 /* Data.cpp */,
+				01DB50531E2D743A002A9091 /* Data.hpp */,
+				01DB50541E2D743A002A9091 /* DataPacket.cpp */,
+				01DB50551E2D743A002A9091 /* DataPacket.hpp */,
+			);
+			name = "Encode&Decode";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		01DB50171E2BB5DA002A9091 /* DispatchSokcetDemo_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01DB502F1E2BB5DA002A9091 /* Build configuration list for PBXNativeTarget "DispatchSokcetDemo_iOS" */;
+			buildPhases = (
+				01DB50141E2BB5DA002A9091 /* Sources */,
+				01DB50151E2BB5DA002A9091 /* Frameworks */,
+				01DB50161E2BB5DA002A9091 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DispatchSokcetDemo_iOS;
+			productName = DispatchSokcetDemo_iOS;
+			productReference = 01DB50181E2BB5DA002A9091 /* DispatchSokcetDemo_iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		01DB50101E2BB5DA002A9091 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = WayneInc;
+				TargetAttributes = {
+					01DB50171E2BB5DA002A9091 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = N29J3PPND9;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 01DB50131E2BB5DA002A9091 /* Build configuration list for PBXProject "DispatchSokcetDemo_iOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 01DB500F1E2BB5DA002A9091;
+			productRefGroup = 01DB50191E2BB5DA002A9091 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				01DB50171E2BB5DA002A9091 /* DispatchSokcetDemo_iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		01DB50161E2BB5DA002A9091 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01DB502B1E2BB5DA002A9091 /* LaunchScreen.storyboard in Resources */,
+				01DB50281E2BB5DA002A9091 /* Assets.xcassets in Resources */,
+				01DB50261E2BB5DA002A9091 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		01DB50141E2BB5DA002A9091 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01DB50561E2D743A002A9091 /* Data.cpp in Sources */,
+				01DB50461E2BB632002A9091 /* AddressHelper.cpp in Sources */,
+				01DB504D1E2BB632002A9091 /* UDPSocket.cpp in Sources */,
+				01DB50571E2D743A002A9091 /* DataPacket.cpp in Sources */,
+				01DB50231E2BB5DA002A9091 /* ViewController.mm in Sources */,
+				01DB50201E2BB5DA002A9091 /* AppDelegate.m in Sources */,
+				01DB501D1E2BB5DA002A9091 /* main.m in Sources */,
+				01DB504B1E2BB632002A9091 /* Socket.cpp in Sources */,
+				01DB504C1E2BB632002A9091 /* TCPSocket.cpp in Sources */,
+				01DB50491E2BB632002A9091 /* DSObjcInterface.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		01DB50241E2BB5DA002A9091 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01DB50251E2BB5DA002A9091 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01DB502A1E2BB5DA002A9091 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		01DB502D1E2BB5DA002A9091 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		01DB502E1E2BB5DA002A9091 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		01DB50301E2BB5DA002A9091 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N29J3PPND9;
+				INFOPLIST_FILE = DispatchSokcetDemo_iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WayneInc.DispatchSokcetDemo-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		01DB50311E2BB5DA002A9091 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N29J3PPND9;
+				INFOPLIST_FILE = DispatchSokcetDemo_iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WayneInc.DispatchSokcetDemo-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01DB50131E2BB5DA002A9091 /* Build configuration list for PBXProject "DispatchSokcetDemo_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01DB502D1E2BB5DA002A9091 /* Debug */,
+				01DB502E1E2BB5DA002A9091 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01DB502F1E2BB5DA002A9091 /* Build configuration list for PBXNativeTarget "DispatchSokcetDemo_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01DB50301E2BB5DA002A9091 /* Debug */,
+				01DB50311E2BB5DA002A9091 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 01DB50101E2BB5DA002A9091 /* Project object */;
+}
