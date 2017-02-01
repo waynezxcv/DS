@@ -35,11 +35,14 @@ namespace DispatchSocket {
     struct WritePacket {
         unsigned long length;
         int type;
-        uint8_t* buffer;
         
         explicit WritePacket(const Data& data,const int& type);
         ~WritePacket();
     };
+    
+    
+    
+    
     
     struct PacketHeader {
         unsigned long length;

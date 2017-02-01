@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01AF1A241E33BA1B003D906E /* TCPSocketMananger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01AF1A231E33BA1B003D906E /* TCPSocketMananger.mm */; };
 		01DB501D1E2BB5DA002A9091 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DB501C1E2BB5DA002A9091 /* main.m */; };
 		01DB50201E2BB5DA002A9091 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DB501F1E2BB5DA002A9091 /* AppDelegate.m */; };
 		01DB50231E2BB5DA002A9091 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50221E2BB5DA002A9091 /* ViewController.mm */; };
-		01DB50261E2BB5DA002A9091 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50241E2BB5DA002A9091 /* Main.storyboard */; };
 		01DB50281E2BB5DA002A9091 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50271E2BB5DA002A9091 /* Assets.xcassets */; };
 		01DB502B1E2BB5DA002A9091 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */; };
 		01DB50461E2BB632002A9091 /* AddressHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50331E2BB632002A9091 /* AddressHelper.cpp */; };
-		01DB50491E2BB632002A9091 /* DSObjcInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */; };
 		01DB504B1E2BB632002A9091 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB503E1E2BB632002A9091 /* Socket.cpp */; };
 		01DB504C1E2BB632002A9091 /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50401E2BB632002A9091 /* TCPSocket.cpp */; };
 		01DB504D1E2BB632002A9091 /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DB50421E2BB632002A9091 /* UDPSocket.cpp */; };
@@ -23,21 +22,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01AF1A221E33BA1B003D906E /* TCPSocketMananger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPSocketMananger.h; path = ../DispatchSocket/TCPSocketMananger.h; sourceTree = "<group>"; };
+		01AF1A231E33BA1B003D906E /* TCPSocketMananger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TCPSocketMananger.mm; path = ../DispatchSocket/TCPSocketMananger.mm; sourceTree = "<group>"; };
 		01DB50181E2BB5DA002A9091 /* DispatchSokcetDemo_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DispatchSokcetDemo_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01DB501C1E2BB5DA002A9091 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01DB501E1E2BB5DA002A9091 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		01DB501F1E2BB5DA002A9091 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		01DB50211E2BB5DA002A9091 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		01DB50221E2BB5DA002A9091 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
-		01DB50251E2BB5DA002A9091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		01DB50271E2BB5DA002A9091 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		01DB502A1E2BB5DA002A9091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01DB502C1E2BB5DA002A9091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01DB50331E2BB632002A9091 /* AddressHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddressHelper.cpp; path = ../DispatchSocket/AddressHelper.cpp; sourceTree = "<group>"; };
 		01DB50341E2BB632002A9091 /* AddressHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddressHelper.hpp; path = ../DispatchSocket/AddressHelper.hpp; sourceTree = "<group>"; };
 		01DB50391E2BB632002A9091 /* DispatchSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = ../DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
-		01DB503A1E2BB632002A9091 /* DSObjcInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSObjcInterface.h; path = ../DispatchSocket/DSObjcInterface.h; sourceTree = "<group>"; };
-		01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DSObjcInterface.mm; path = ../DispatchSocket/DSObjcInterface.mm; sourceTree = "<group>"; };
 		01DB503E1E2BB632002A9091 /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = ../DispatchSocket/Socket.cpp; sourceTree = "<group>"; };
 		01DB503F1E2BB632002A9091 /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = ../DispatchSocket/Socket.hpp; sourceTree = "<group>"; };
 		01DB50401E2BB632002A9091 /* TCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPSocket.cpp; path = ../DispatchSocket/TCPSocket.cpp; sourceTree = "<group>"; };
@@ -85,10 +83,6 @@
 				01DB501F1E2BB5DA002A9091 /* AppDelegate.m */,
 				01DB50211E2BB5DA002A9091 /* ViewController.h */,
 				01DB50221E2BB5DA002A9091 /* ViewController.mm */,
-				01DB50241E2BB5DA002A9091 /* Main.storyboard */,
-				01DB50271E2BB5DA002A9091 /* Assets.xcassets */,
-				01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */,
-				01DB502C1E2BB5DA002A9091 /* Info.plist */,
 				01DB501B1E2BB5DA002A9091 /* Supporting Files */,
 			);
 			path = DispatchSokcetDemo_iOS;
@@ -97,6 +91,9 @@
 		01DB501B1E2BB5DA002A9091 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01DB50271E2BB5DA002A9091 /* Assets.xcassets */,
+				01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */,
+				01DB502C1E2BB5DA002A9091 /* Info.plist */,
 				01DB501C1E2BB5DA002A9091 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -106,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				01DB50391E2BB632002A9091 /* DispatchSocket.h */,
-				01DB503A1E2BB632002A9091 /* DSObjcInterface.h */,
-				01DB503B1E2BB632002A9091 /* DSObjcInterface.mm */,
+				01AF1A221E33BA1B003D906E /* TCPSocketMananger.h */,
+				01AF1A231E33BA1B003D906E /* TCPSocketMananger.mm */,
 				01DB504F1E2BB98F002A9091 /* Core */,
 			);
 			name = DispatchSocket;
@@ -209,7 +206,6 @@
 			files = (
 				01DB502B1E2BB5DA002A9091 /* LaunchScreen.storyboard in Resources */,
 				01DB50281E2BB5DA002A9091 /* Assets.xcassets in Resources */,
-				01DB50261E2BB5DA002A9091 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,21 +225,13 @@
 				01DB501D1E2BB5DA002A9091 /* main.m in Sources */,
 				01DB504B1E2BB632002A9091 /* Socket.cpp in Sources */,
 				01DB504C1E2BB632002A9091 /* TCPSocket.cpp in Sources */,
-				01DB50491E2BB632002A9091 /* DSObjcInterface.mm in Sources */,
+				01AF1A241E33BA1B003D906E /* TCPSocketMananger.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		01DB50241E2BB5DA002A9091 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				01DB50251E2BB5DA002A9091 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		01DB50291E2BB5DA002A9091 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -349,6 +337,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N29J3PPND9;
 				INFOPLIST_FILE = DispatchSokcetDemo_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.WayneInc.DispatchSokcetDemo-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -361,6 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = N29J3PPND9;
 				INFOPLIST_FILE = DispatchSokcetDemo_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.WayneInc.DispatchSokcetDemo-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

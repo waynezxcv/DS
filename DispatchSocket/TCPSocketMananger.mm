@@ -25,13 +25,13 @@
 
 
 
-#import "DSObjcInterface.h"
+#import "TCPSocketMananger.h"
 #import "TCPSocket.hpp"
 #import "Data.hpp"
 
 
 
-@implementation DispatchSocketObjc {
+@implementation TCPSocketMananger {
     DispatchSocket::TCPSocket* _socket;
 }
 
@@ -73,7 +73,7 @@
     return self;
 }
 
-- (id)initWithDelegate:(id<DSObjcInterfaceDelegate>)delegate {
+- (id)initWithDelegate:(id<TCPSocketManangerDelegate>)delegate {
     self = [super init];
     if (self) {
         _socket = new DispatchSocket::TCPSocket();
@@ -85,27 +85,29 @@
 
 
 - (void)setupCallback {
+    
     _socket->startListenCallBack = [self](const std::string& ip,const uint16_t& port) -> void {
         [self startListenCallBack:[[NSString alloc] initWithUTF8String:ip.c_str()] port:port];
     };
     
     _socket->acceptANewClientCallback = [self] (const std::string& url) -> void {
         [self acceptANewClientCallback:[[NSString alloc] initWithUTF8String:url.c_str()]];
+        
+        std::shared_ptr<DispatchSocket::TCPSocket> newSokcet = _socket->tcpsocketForURL(url);
+        newSokcet->didReceivedDataCallBack = [self] (std::shared_ptr<DispatchSocket::Data> payload, const int& type) -> void {
+            uint8_t* buffer = (uint8_t *)malloc(payload -> length() * sizeof(uint8_t));
+            for (int i = 0; i < payload -> length(); i ++) {
+                memcpy(buffer + i,&payload -> bytes()[i], sizeof(uint8_t));
+            }
+            
+            NSData* data = [[NSData alloc] initWithBytes:buffer length:payload -> length()];
+            [self didReceivedDataCallBack:data type:type];
+            free(buffer);
+        };
     };
     
     _socket -> didConnectedToHostSuccessCallBack = [self] (const std::string& host,const uint16_t& port) -> void {
         [self didConnectedToHostSuccessCallBack:[[NSString alloc] initWithUTF8String:host.c_str()] port:port];
-    };
-    
-    _socket -> didReceivedDataCallBack = [self] (std::shared_ptr<DispatchSocket::Data> payload,const int& type) -> void {
-        
-        uint8_t* buffer = (uint8_t *)malloc(payload -> length());
-        for (int i = 0; i < payload -> length(); i ++) {
-            memcpy(buffer,&payload -> bytes()[i], sizeof(uint8_t));
-        }
-        NSData* data = [[NSData alloc] initWithBytes:buffer length:payload -> length()];
-        [self didReceivedDataCallBack:data type:type];
-        free(buffer);
     };
 }
 

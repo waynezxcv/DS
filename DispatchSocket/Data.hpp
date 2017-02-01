@@ -35,6 +35,8 @@
 namespace DispatchSocket {
     class Data {
     public:
+        
+        
         Data();
         Data(uint8_t* buffer,const unsigned long& len);
         Data(const Data& rhs);

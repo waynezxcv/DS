@@ -23,6 +23,9 @@
  THE SOFTWARE.
  */
 
+
+
+
 #include "Data.hpp"
 
 using namespace DispatchSocket;
@@ -63,7 +66,7 @@ void Data::appendBytes(uint8_t* buffer,const unsigned long& len) {
 }
 
 void Data::appendData(const Data& data) {
-    for (auto c : data._bytes) {
+    for (auto c : data._bytes) {        
         _bytes.push_back(c);
         _length ++;
     }
@@ -86,7 +89,6 @@ unsigned long Data::length () const {
     return _length;
 }
 
-
 void Data::writeInt(const int& v) {
     size_t len = sizeof(int);
     uint8_t ch[len];
@@ -95,7 +97,6 @@ void Data::writeInt(const int& v) {
     }
     this->appendBytes(ch, len);
 }
-
 
 void Data::writeUnsignedlong(const unsigned long& v) {
     size_t len = sizeof(unsigned long);

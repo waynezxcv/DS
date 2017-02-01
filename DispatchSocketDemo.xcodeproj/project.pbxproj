@@ -13,7 +13,7 @@
 		0115C0271E2109D600021B1A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0115C0251E2109D600021B1A /* MainMenu.xib */; };
 		0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C02F1E210A1400021B1A /* AddressHelper.cpp */; };
 		0115C0401E210A1400021B1A /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0115C0351E210A1400021B1A /* Socket.cpp */; };
-		0152C90E1E252E9A00F41CBE /* DSObjcInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */; };
+		0152C90E1E252E9A00F41CBE /* TCPSocketMananger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0152C90D1E252E9A00F41CBE /* TCPSocketMananger.mm */; };
 		01BB40631E226E90005B54EF /* TCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40611E226E90005B54EF /* TCPSocket.cpp */; };
 		01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BB40671E2275DC005B54EF /* UDPSocket.cpp */; };
 		B07141241E2CBA0900413C15 /* DataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07141221E2CBA0900413C15 /* DataPacket.cpp */; };
@@ -33,8 +33,8 @@
 		0115C0351E210A1400021B1A /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = DispatchSocket/Socket.cpp; sourceTree = "<group>"; };
 		0115C0361E210A1400021B1A /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = DispatchSocket/Socket.hpp; sourceTree = "<group>"; };
 		0152C90B1E252C2200F41CBE /* DispatchSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DispatchSocket.h; path = DispatchSocket/DispatchSocket.h; sourceTree = "<group>"; };
-		0152C90C1E252E9A00F41CBE /* DSObjcInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSObjcInterface.h; path = DispatchSocket/DSObjcInterface.h; sourceTree = "<group>"; };
-		0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DSObjcInterface.mm; path = DispatchSocket/DSObjcInterface.mm; sourceTree = "<group>"; };
+		0152C90C1E252E9A00F41CBE /* TCPSocketMananger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPSocketMananger.h; path = DispatchSocket/TCPSocketMananger.h; sourceTree = "<group>"; };
+		0152C90D1E252E9A00F41CBE /* TCPSocketMananger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TCPSocketMananger.mm; path = DispatchSocket/TCPSocketMananger.mm; sourceTree = "<group>"; };
 		01BB40611E226E90005B54EF /* TCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPSocket.cpp; path = DispatchSocket/TCPSocket.cpp; sourceTree = "<group>"; };
 		01BB40621E226E90005B54EF /* TCPSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCPSocket.hpp; path = DispatchSocket/TCPSocket.hpp; sourceTree = "<group>"; };
 		01BB40671E2275DC005B54EF /* UDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDPSocket.cpp; path = DispatchSocket/UDPSocket.cpp; sourceTree = "<group>"; };
@@ -98,8 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				0152C90B1E252C2200F41CBE /* DispatchSocket.h */,
-				0152C90C1E252E9A00F41CBE /* DSObjcInterface.h */,
-				0152C90D1E252E9A00F41CBE /* DSObjcInterface.mm */,
+				0152C90C1E252E9A00F41CBE /* TCPSocketMananger.h */,
+				0152C90D1E252E9A00F41CBE /* TCPSocketMananger.mm */,
 				0115C0881E211D1E00021B1A /* Core */,
 			);
 			name = DispatchSocket;
@@ -212,7 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B07141241E2CBA0900413C15 /* DataPacket.cpp in Sources */,
-				0152C90E1E252E9A00F41CBE /* DSObjcInterface.mm in Sources */,
+				0152C90E1E252E9A00F41CBE /* TCPSocketMananger.mm in Sources */,
 				01BB40691E2275DC005B54EF /* UDPSocket.cpp in Sources */,
 				0115C03D1E210A1400021B1A /* AddressHelper.cpp in Sources */,
 				B0D919B61E2C6B5C00DF2FD2 /* Data.cpp in Sources */,

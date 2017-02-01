@@ -1,13 +1,13 @@
 
 #import "ViewController.h"
-#import "DSObjcInterface.h"
+#import "TCPSocketMananger.h"
 
 
 
 
-@interface ViewController ()<DSObjcInterfaceDelegate>
+@interface ViewController ()<TCPSocketManangerDelegate>
 
-@property (nonatomic,strong) DispatchSocketObjc* socket;
+@property (nonatomic,strong) TCPSocketMananger* socket;
 
 @end
 
@@ -15,24 +15,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.socket = [[DispatchSocketObjc alloc] initWithDelegate:self];
-    [self.socket connectToHost:@"192.168.1.223" port:59269];
-
+    
+    self.view.backgroundColor = [UIColor grayColor];
+    
+    
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"发送" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button.frame = CGRectMake(0, 0, 100, 40);
     button.center = self.view.center;
-    [self.view addSubview:button];
     [button addTarget:self action:@selector(didClickedButton)
      forControlEvents:UIControlEventTouchUpInside];
-
+    [self.view addSubview:button];
+    
+    
+    self.socket = [[TCPSocketMananger alloc] initWithDelegate:self];
+    [self.socket connectToHost:@"192.168.1.101" port:59269];
 }
 
 
 - (void)didClickedButton {
-
+    
+    //    UIImage* image = [UIImage imageNamed:@"test"];
+    //    NSData* imgData = UIImagePNGRepresentation(image);
+    //    NSLog(@"size :%ld",imgData.length);
+    
+    NSString* str = @"hello,dispatch socket!";
+    NSData* strData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    [self.socket writeData:strData type:123 timeout:0];
 }
 
 

@@ -50,6 +50,7 @@ typedef enum {
     TCPSocketRoleClient
 } TCPSocketRole;
 
+
 namespace DispatchSocket {
     class TCPSocket : public Socket {
 
@@ -67,7 +68,6 @@ namespace DispatchSocket {
         void shutdown();
         void writeData(const Data& data,int type);
 
-
         std::shared_ptr<TCPSocket> tcpsocketForURL(const std::string& URL);
         unsigned currentConnectedSocketsCount() const;
         TCPSocketRole role () const;
@@ -75,7 +75,7 @@ namespace DispatchSocket {
         std::function<void(const std::string&,const uint16_t&)> startListenCallBack;
         std::function<void(const std::string&)> acceptANewClientCallback;
         std::function<void(const std::string&,const uint16_t&)> didConnectedToHostSuccessCallBack;
-        std::function<void(std::shared_ptr<Data> payload,const int& type)> didReceivedDataCallBack;
+        std::function<void(std::shared_ptr<Data>, const int& type)> didReceivedDataCallBack;
 
     private:
         SocketFlags _flags;

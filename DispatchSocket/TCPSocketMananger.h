@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol DSObjcInterfaceDelegate <NSObject>
+@protocol TCPSocketManangerDelegate <NSObject>
 
 @optional
 
@@ -46,12 +46,12 @@
 
 
 
-@interface DispatchSocketObjc : NSObject
+@interface TCPSocketMananger : NSObject
 
-@property (nonatomic,weak) id<DSObjcInterfaceDelegate> delegate;
+@property (nonatomic,weak) id<TCPSocketManangerDelegate> delegate;
 
 //构造函数，指定代理
-- (id)initWithDelegate:(id<DSObjcInterfaceDelegate>)delegate;
+- (id)initWithDelegate:(id<TCPSocketManangerDelegate>)delegate;
 
 //开始监听
 - (void)listen;
@@ -71,13 +71,13 @@
 //关闭，服务端调用
 - (void)shutdown;
 
-//指定对端ip和端口号发送数据。服务端调用
+//指定对端ip和端口号发送数据
 - (void)writeData:(NSData *)data type:(NSInteger)type toHost:(NSString *)host port:(NSInteger)port timeout:(double)timeout;
 
-//不指定对端ip和端口号发送数据。如果是客户端，则发送给建立连接的服务端，如果是服务端，则发送给所有建立连接的客户端
+//不指定对端ip和端口号发送数据
 - (void)writeData:(NSData *)data type:(NSInteger)type timeout:(double)timeout;
 
-//当前连接的客户端数量，服务端调用
+//当前连接的客户端数量
 - (NSInteger)currentConnectedSocketsCount;
 
 
