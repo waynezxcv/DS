@@ -456,67 +456,69 @@ void TCPSocket::writeData(const Data& data,int type) {
 }
 
 void TCPSocket::writeDataHanlder() {
-    if (_flags.isWritting) {
-        return;
-    }
-    if (_writeQueue.size() == 0) {
+    
+    if (_writeQueue.size() == 0 && _currentWrite == nullptr) {
         suspendWriteSource();
         return;
     }
     
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-    _flags.isWritting = true;
-    _currentWrite = _writeQueue.front();
-    _writeQueue.pop();
-    
-    unsigned long writenLen = 0;
-    unsigned long needWriteLen = _currentWrite->length;
-    ssize_t results = 0;
-    
-    while (writenLen < needWriteLen) {
-        std::vector<uint8_t> bytes = _currentWrite->payload.bytes();
-        uint8_t* buffer = nullptr;
+    if (!_flags.isWritting) {
         
-        if (needWriteLen <= kMaxBufferSize) {
+        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+        _flags.isWritting = true;
+        _currentWrite = _writeQueue.front();
+        _writeQueue.pop();
+        
+        unsigned long writenLen = 0;
+        unsigned long needWriteLen = _currentWrite->length;
+        ssize_t results = 0;
+        
+        while (writenLen < needWriteLen) {
+            std::vector<uint8_t> bytes = _currentWrite->payload.bytes();
+            uint8_t* buffer = nullptr;
             
-            buffer = (uint8_t *)malloc(kUnCharLen * _currentWrite->length);
-            memset(buffer, 0, kUnCharLen * _currentWrite->length);
-            memcpy(buffer, &bytes[0], kUnCharLen * _currentWrite->length);
-            results = write(_sockFd,buffer,_currentWrite -> length);
-            
-        } else {
-            
-            if (needWriteLen - writenLen >= kMaxBufferSize) {
-                buffer = (uint8_t *)malloc(kMaxBufferSize);
-                memset(buffer, 0,kMaxBufferSize);
-                memcpy(buffer, &bytes[writenLen], kMaxBufferSize);
-                results = write(_sockFd,buffer,kMaxBufferSize);
+            if (needWriteLen <= kMaxBufferSize) {
+                
+                buffer = (uint8_t *)malloc(kUnCharLen * _currentWrite->length);
+                memset(buffer, 0, kUnCharLen * _currentWrite->length);
+                memcpy(buffer, &bytes[0], kUnCharLen * _currentWrite->length);
+                results = write(_sockFd,buffer,_currentWrite -> length);
                 
             } else {
                 
-                buffer = (uint8_t *)malloc(needWriteLen - writenLen);
-                memset(buffer, 0,needWriteLen - writenLen);
-                memcpy(buffer, &bytes[writenLen], needWriteLen - writenLen);
-                results = write(_sockFd,buffer,needWriteLen - writenLen);
-                
+                if (needWriteLen - writenLen >= kMaxBufferSize) {
+                    buffer = (uint8_t *)malloc(kMaxBufferSize);
+                    memset(buffer, 0,kMaxBufferSize);
+                    memcpy(buffer, &bytes[writenLen], kMaxBufferSize);
+                    results = write(_sockFd,buffer,kMaxBufferSize);
+                    
+                } else {
+                    
+                    buffer = (uint8_t *)malloc(needWriteLen - writenLen);
+                    memset(buffer, 0,needWriteLen - writenLen);
+                    memcpy(buffer, &bytes[writenLen], needWriteLen - writenLen);
+                    results = write(_sockFd,buffer,needWriteLen - writenLen);
+                    
+                }
+            }
+            
+            free(buffer);
+            
+            if (results < 0) {
+                sockDisconnect();
+                break;
+            } else if(results == 0) {
+                break;
+            } else {
+                ssize_t len = results;
+                writenLen += len;
             }
         }
         
-        free(buffer);
-        
-        if (results < 0) {
-            sockDisconnect();
-            break;
-        } else if(results == 0) {
-            break;
-        } else {
-            ssize_t len = results;
-            writenLen += len;
-        }
+        _currentWrite = nullptr;
+        _flags.isWritting = false;
+        dispatch_semaphore_signal(_semaphore);
     }
-    
-    _flags.isWritting = false;
-    dispatch_semaphore_signal(_semaphore);
 }
 
 
@@ -579,7 +581,6 @@ void TCPSocket::readEOFHandler() {
 
 #pragma mark - Setter & Getter
 
-//通过URL获取TCPSocket实例
 std::shared_ptr<TCPSocket> TCPSocket::tcpsocketForURL(const std::string& URL) {
     
     if (_role == TCPSocketRoleServer) {
