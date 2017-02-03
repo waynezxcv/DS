@@ -326,10 +326,9 @@ bool TCPSocket::sockDisconnect() {
 
 bool TCPSocket::sockDisconnect(const std::string& url) {
     std::map<std::string, std::shared_ptr<TCPSocket>>::iterator itr;
-    try {
-        auto value = _connectedSockets.find(url);
-        itr = value;
-    } catch (...) {
+    auto value = _connectedSockets.find(url);
+    itr = value;
+    if (itr == NULL) {
         return false;
     }
     std::shared_ptr<TCPSocket> tcpSocket = itr->second;
