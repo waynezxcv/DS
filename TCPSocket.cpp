@@ -325,12 +325,7 @@ bool TCPSocket::sockDisconnect() {
 }
 
 bool TCPSocket::sockDisconnect(const std::string& url) {
-    std::map<std::string, std::shared_ptr<TCPSocket>>::iterator itr;
-    auto value = _connectedSockets.find(url);
-    itr = value;
-    if (itr == NULL) {
-        return false;
-    }
+    std::map<std::string, std::shared_ptr<TCPSocket>>::iterator itr = _connectedSockets.find(url);
     std::shared_ptr<TCPSocket> tcpSocket = itr->second;
     sockClose(tcpSocket->_sockFd);
     _connectedSockets.erase(itr);
@@ -581,7 +576,6 @@ void TCPSocket::readEOFHandler() {
 #pragma mark - Setter & Getter
 
 std::shared_ptr<TCPSocket> TCPSocket::tcpsocketForURL(const std::string& URL) {
-    
     if (_role == TCPSocketRoleServer) {
         std::map<std::string,std::shared_ptr<TCPSocket>>::iterator iterator = _connectedSockets.find(URL);
         std::shared_ptr<TCPSocket> tcpSocket = iterator->second;
