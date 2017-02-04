@@ -27,19 +27,31 @@
 
 
 DispatchSocket::WritePacket::WritePacket(const Data& data,const int& type) :
-                            payload(Data()),
-                            type(type),
-                            length(sizeof(unsigned long) + sizeof(int) + data.length()) {
-                                
+payload(Data()),
+type(type),
+length(sizeof(unsigned long) + sizeof(int) + data.length()) {
+    
     payload.writeUnsignedlong(length);
     payload.writeInt(type);
     payload.appendData(data);
-                                
+    
 }
 
 DispatchSocket::WritePacket::~WritePacket() {
     
+}
+
+DispatchSocket::WritePacket::WritePacket(const WritePacket& rhs) :length(rhs.length) ,type(rhs.type) ,payload(Data(rhs.payload)) {
 };
 
+DispatchSocket::WritePacket& DispatchSocket::WritePacket::operator = (const WritePacket& rhs) {
+    if (this == &rhs) {
+        return *this;
+    }
+    length = rhs.length;
+    type = rhs.type;
+    payload = Data(rhs.payload);
+    return *this;
+}
 
 

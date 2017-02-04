@@ -32,12 +32,16 @@
 
 
 namespace DispatchSocket {
+    
     struct WritePacket {
         unsigned long length;
         int type;
         Data payload;
+        
         explicit WritePacket(const Data& data,const int& type);
         ~WritePacket();
+        WritePacket(const WritePacket&);
+        WritePacket& operator = (const WritePacket&);
     };
 }
 
