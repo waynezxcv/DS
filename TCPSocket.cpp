@@ -257,8 +257,10 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
 #ifdef DEBUG
             std::cout<<"connect fail!"<<std::endl;
 #endif
-            return false;
+            return LW_SOCK_NULL;
         }
+        
+        
         int result = connect(connFd,sockaddr, sockaddr -> sa_len);
         if (LW_SOCK_NULL == result) {
             close(connFd);
@@ -291,11 +293,13 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
     
     struct sockaddr sockaddr;
     int connFd = createSock(&sockaddr,host,port);
+    
+    
     if (connFd == LW_SOCK_NULL) {
-#ifdef DEBUG
-        std::cout<<"connect fail!\n"<<std::endl;
+        if (connectToHostFailedCallBack != nullptr) {
+            connectToHostFailedCallBack(host,port);
+        }
         return;
-#endif
     }
     
     _flags.socketOpened = true;
@@ -309,6 +313,8 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
     }
     
     _URL = AddressHelper::getUrl(&sockaddr);
+    
+    
     if (didConnectedToHostSuccessCallBack != nullptr) {
         didConnectedToHostSuccessCallBack(host,port);
     }
@@ -319,17 +325,16 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
 }
 
 
-bool TCPSocket::sockDisconnect() {
-    int flag = sockClose(_sockFd);
-    return (LW_SOCK_NULL != flag);
+void TCPSocket::sockDisconnect() {
+    sockClose(_sockFd);
 }
 
-bool TCPSocket::sockDisconnect(const std::string& url) {
+
+void TCPSocket::sockDisconnect(const std::string& url) {
     std::map<std::string, std::shared_ptr<TCPSocket>>::iterator itr = _connectedSockets.find(url);
     std::shared_ptr<TCPSocket> tcpSocket = itr->second;
     sockClose(tcpSocket->_sockFd);
     _connectedSockets.erase(itr);
-    return true;
 }
 
 #pragma mark - close

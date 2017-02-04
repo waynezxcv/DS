@@ -39,6 +39,9 @@
 //连接到指定ip和端口号成功回调
 - (void)didConnectedToHost:(NSString *)host port:(NSInteger)port;
 
+//连接到指定ip和端口号失败回调
+- (void)connectedFailedToHost:(NSString *)host port:(NSInteger)port;
+
 //接收到数据回调
 - (void)didReceivedData:(NSData *)data type:(NSInteger)type;
 

@@ -56,6 +56,12 @@
     }
 }
 
+- (void)connectedFailedToHostCallBack:(NSString *)ip port:(NSInteger)port {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(connectedFailedToHost:port:)]) {
+        [self.delegate connectedFailedToHost:ip port:port];
+    }
+}
+
 - (void)didReceivedDataCallBack:(NSData *)data type:(int)type {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didReceivedData:type:)]) {
         [self.delegate didReceivedData:data type:type];
@@ -95,7 +101,7 @@
         [self acceptANewClientCallback:[[NSString alloc] initWithUTF8String:url.c_str()]];
         std::shared_ptr<DispatchSocket::TCPSocket> newSokcet = _socket->tcpsocketForURL(url);
         newSokcet -> didReceivedDataCallBack = [self] (std::shared_ptr<DispatchSocket::Data> payload, const int& type) -> void {
-
+            
             std::vector<uint8_t> bytes = payload->bytes();
             uint8_t* buffer = (uint8_t *)malloc(payload -> length() * sizeof(uint8_t));
             memset(buffer, 0, payload -> length() * sizeof(uint8_t));
@@ -110,6 +116,10 @@
     
     _socket -> didConnectedToHostSuccessCallBack = [self] (const std::string& host,const uint16_t& port) -> void {
         [self didConnectedToHostSuccessCallBack:[[NSString alloc] initWithUTF8String:host.c_str()] port:port];
+    };
+    
+    _socket -> connectToHostFailedCallBack = [self] (const std::string& host,const uint16_t& port) -> void {
+        [self connectedFailedToHostCallBack:[[NSString alloc] initWithUTF8String:host.c_str()] port:port];
     };
 }
 

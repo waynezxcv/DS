@@ -67,8 +67,8 @@ namespace DispatchSocket {
         bool sockListen();
         bool sockListen(const uint16_t& port);
         void sockConnect(const std::string& host,const uint16_t& port);
-        bool sockDisconnect();
-        bool sockDisconnect(const std::string& url);
+        void sockDisconnect();
+        void sockDisconnect(const std::string& url);
         void shutdown();
         void writeData(const Data& data,int type);
         
@@ -79,6 +79,7 @@ namespace DispatchSocket {
         std::function<void(const std::string&,const uint16_t&)> startListenCallBack;
         std::function<void(const std::string&)> acceptANewClientCallback;
         std::function<void(const std::string&,const uint16_t&)> didConnectedToHostSuccessCallBack;
+        std::function<void(const std::string&,const uint16_t&)> connectToHostFailedCallBack;
         std::function<void(std::shared_ptr<Data>, const int& type)> didReceivedDataCallBack;
         
     private:
