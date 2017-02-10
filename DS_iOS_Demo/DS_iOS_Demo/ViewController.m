@@ -23,19 +23,25 @@
  THE SOFTWARE.
  */
 
-#ifndef UDPSocket_hpp
-#define UDPSocket_hpp
 
-#include "Socket.hpp"
+#import "ViewController.h"
 
+@interface ViewController ()
 
-//TODO:
+@end
 
-namespace DispatchSocket {
-    class UDPSocket {
-    public:
-        
-    };
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
-#endif /* UDPSocket_hpp */
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+@end

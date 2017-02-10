@@ -23,19 +23,12 @@
  THE SOFTWARE.
  */
 
-#ifndef UDPSocket_hpp
-#define UDPSocket_hpp
 
-#include "Socket.hpp"
+#import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
-
-//TODO:
-
-namespace DispatchSocket {
-    class UDPSocket {
-    public:
-        
-    };
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
 }
-
-#endif /* UDPSocket_hpp */

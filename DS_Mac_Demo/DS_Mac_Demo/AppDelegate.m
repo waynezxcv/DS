@@ -23,19 +23,41 @@
  THE SOFTWARE.
  */
 
-#ifndef UDPSocket_hpp
-#define UDPSocket_hpp
-
-#include "Socket.hpp"
+#import "AppDelegate.h"
+#import "TCPSocketMananger.h"
 
 
-//TODO:
 
-namespace DispatchSocket {
-    class UDPSocket {
-    public:
-        
-    };
+
+@interface AppDelegate () <TCPSocketManangerDelegate>
+
+@property (weak) IBOutlet NSWindow *window;
+@property (nonatomic,strong) TCPSocketMananger* tcpManager;
+
+
+@end
+
+@implementation AppDelegate
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    self.tcpManager = [[TCPSocketMananger alloc] initWithDelegate:self];
+    [self.tcpManager listenOnPort:63873];
 }
 
-#endif /* UDPSocket_hpp */
+#pragma mark  - TCPSocketManangerDelegate
+//开始监听回调
+- (void)didStartListenWithIP:(NSString *)ip port:(NSInteger)port {
+    NSLog(@"tcp server did start listen on : %@:%ld",ip,port);
+}
+
+//接受了一个新的客户端连接回调
+- (void)didAcceptANewClient:(NSString *)clientURL {
+    NSLog(@"tcp server did accept a new client :%@",clientURL);
+}
+
+//接收到数据回调
+- (void)didReceivedData:(NSData *)data type:(NSInteger)type {
+    NSLog(@"did received data :\n%@ type :%ld",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],type);
+}
+
+@end

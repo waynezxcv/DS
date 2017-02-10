@@ -212,7 +212,7 @@ void TCPSocket::acceptHandler(const int& fd,const std::string& url) {
     int connFd = accept(fd,sockaddr, &addrLen);
     if (connFd == LW_SOCK_NULL) {
 #ifdef DEBUG
-        printf("accept fail!\n");
+        printf("accept failed!\n");
 #endif
         return;
     }
@@ -260,7 +260,6 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
             return LW_SOCK_NULL;
         }
         
-        
         int result = connect(connFd,sockaddr, sockaddr -> sa_len);
         if (LW_SOCK_NULL == result) {
             close(connFd);
@@ -290,38 +289,42 @@ void TCPSocket::sockConnect(const std::string &host, const uint16_t &port) {
         return connFd;
     };
     
-    
-    struct sockaddr sockaddr;
-    int connFd = createSock(&sockaddr,host,port);
-    
-    
-    if (connFd == LW_SOCK_NULL) {
-        if (connectToHostFailedCallBack != nullptr) {
-            connectToHostFailedCallBack(host,port);
-        }
-        return;
-    }
-    
-    _flags.socketOpened = true;
-    _role = TCPSocketRoleClient;
-    _sockFd = connFd;
-    
-    if (AddressHelper::isIPv4Addr(&sockaddr)) {
-        _addressFamily = AF_INET;
-    } else {
-        _addressFamily = AF_INET6;
-    }
-    
-    _URL = AddressHelper::getUrl(&sockaddr);
+    __block struct sockaddr sockaddr;
+    std::string _host = host;
+    int16_t _port = port;
     
     
-    if (didConnectedToHostSuccessCallBack != nullptr) {
-        didConnectedToHostSuccessCallBack(host,port);
-    }
     
     dispatch_async(_sockQueue, ^{
+        int connFd = createSock(&sockaddr,_host,_port);
+        if (connFd == LW_SOCK_NULL) {
+            if (connectToHostFailedCallBack != nullptr) {
+                connectToHostFailedCallBack(host,port);
+            }
+            return;
+        }
+        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+        _flags.socketOpened = true;
+        _role = TCPSocketRoleClient;
+        _sockFd = connFd;
+        if (AddressHelper::isIPv4Addr(&sockaddr)) {
+            _addressFamily = AF_INET;
+        } else {
+            _addressFamily = AF_INET6;
+        }
+        _URL = AddressHelper::getUrl(&sockaddr);
+        dispatch_semaphore_signal(_semaphore);
         setupReadAndWriteSource(_sockFd, AddressHelper::getUrl(&sockaddr));
     });
+    
+    
+    
+    dispatch_barrier_async(_sockQueue, ^{
+        if (didConnectedToHostSuccessCallBack != nullptr) {
+            didConnectedToHostSuccessCallBack(_host,_port);
+        }
+    });
+    
 }
 
 

@@ -23,19 +23,11 @@
  THE SOFTWARE.
  */
 
-#ifndef UDPSocket_hpp
-#define UDPSocket_hpp
 
-#include "Socket.hpp"
+#import <Cocoa/Cocoa.h>
+
+@interface AppDelegate : NSObject <NSApplicationDelegate>
 
 
-//TODO:
+@end
 
-namespace DispatchSocket {
-    class UDPSocket {
-    public:
-        
-    };
-}
-
-#endif /* UDPSocket_hpp */

@@ -23,19 +23,10 @@
  THE SOFTWARE.
  */
 
-#ifndef UDPSocket_hpp
-#define UDPSocket_hpp
+#import <UIKit/UIKit.h>
 
-#include "Socket.hpp"
+@interface ViewController : UIViewController
 
 
-//TODO:
+@end
 
-namespace DispatchSocket {
-    class UDPSocket {
-    public:
-        
-    };
-}
-
-#endif /* UDPSocket_hpp */
