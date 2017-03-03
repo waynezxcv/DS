@@ -1,4 +1,3 @@
-# DS
+# DispatchSocket
 
-BSD socket，使用DispatchSource I/O多路复用的。
-
+Use libdispatch for multi-threaded and I/O multiplexing.
