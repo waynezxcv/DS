@@ -74,7 +74,7 @@ namespace DispatchSocket {
         
         std::shared_ptr<TCPSocket> tcpsocketForURL(const std::string& URL);
         unsigned currentConnectedSocketsCount() const;
-        TCPSocketRole role () const;
+        TCPSocketRole role () const ;
         
         std::function<void(const std::string&,const uint16_t&)> startListenCallBack;
         std::function<void(const std::string&)> acceptANewClientCallback;

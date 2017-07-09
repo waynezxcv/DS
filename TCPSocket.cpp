@@ -40,7 +40,7 @@ constexpr unsigned long kUnCharLen = sizeof(uint8_t);
 #pragma mark - LifeCycle
 
 
-TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL){
+TCPSocket::TCPSocket() : _sockFd(LW_SOCK_NULL) ,_addressFamily(LW_SOCK_NULL) {
     _sockQueue = dispatch_queue_create("com.waynezxcv.DispatchSocket.sockQueue", DISPATCH_QUEUE_SERIAL);
     _connectedSockets = std::map<std::string, std::shared_ptr<TCPSocket>> ();
     _semaphore = dispatch_semaphore_create(1);

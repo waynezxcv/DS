@@ -43,6 +43,9 @@ namespace DispatchSocket {
         void sockGetPeerName(const int& fd, std::string &ip,uint16_t &port) const;
         std::string sockGetIfaddrs() const;
     };
+    
+    
+    
 }
 
 #endif /* Socket_hpp */
